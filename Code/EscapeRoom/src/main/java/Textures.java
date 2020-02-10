@@ -17,7 +17,6 @@ public class Textures {
         private void load() {
             try {
                 BufferedImage image = ImageIO.read(new File(location));
-
                 int w = image.getWidth();
                 int h = image.getHeight();
                 System.out.println( w + " " + h);
@@ -33,6 +32,6 @@ public class Textures {
     public static Textures wood = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\small.png",64);
     public static Textures brick = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png",64 );
     public static Textures bluestone = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png", 64);
-    public static Textures stone = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png", 64);
+    public static Textures chest = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png", 64);
 }
 
