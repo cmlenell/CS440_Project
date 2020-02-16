@@ -77,6 +77,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         inventory.setLocation(mainScreen.x,mainScreen.y+mainScreen.height);
         inventory.setUndecorated(true);
         inventory.setVisible(true);
+        inventory.getRootPane().setBorder(BorderFactory.createMatteBorder(0,4,4,4,Color.yellow));
 
 
 

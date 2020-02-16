@@ -92,13 +92,15 @@ public class Screen {
             int lineHeight;
             if(perpWallDist > 0) {
                 if(texNum == 0)
-                    lineHeight = Math.abs((int)(height/2 / perpWallDist));// Change this variable to change the height of walls
+                    lineHeight = Math.abs((int)(height / perpWallDist));// Change this variable to change the height of walls
                 else
                     lineHeight = Math.abs((int)(height / perpWallDist));// Change this variable to change the height of walls
             }
             else lineHeight = height;
             //calculate lowest and highest pixel to fill in current stripe
-            int drawStart = -lineHeight/2+ height/2;
+            int drawStart;
+            if (texNum == 0){ drawStart = -lineHeight/16+ height/2;}
+            else  drawStart = -lineHeight/2+ height/2;
             if(drawStart < 0)
                 drawStart = 0;
             int drawEnd = lineHeight/2 + height/2;
