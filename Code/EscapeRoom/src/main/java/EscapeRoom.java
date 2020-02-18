@@ -27,15 +27,15 @@ public class EscapeRoom extends JFrame implements Runnable{
 
     public static int[][] map =
             {
-                    {1,1,1,1,1,1,1,1,2,2,2,2,2,2,2},
-                    {1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
-                    {1,0,3,3,3,3,3,0,0,0,0,0,0,0,2},
-                    {1,0,3,0,0,0,3,0,2,0,0,0,0,0,2},
-                    {1,0,3,1,0,0,3,0,2,2,2,0,2,2,2},
-                    {1,0,3,0,0,0,3,0,2,0,0,0,0,0,2},
-                    {1,0,3,3,0,3,3,0,2,0,0,0,0,0,2},
-                    {1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
-                    {1,1,1,1,1,1,1,1,4,4,4,0,4,4,4},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,1,1,1,1,1,1,1,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,1,1,1,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,1,0,1,1,1,3,1,1,1},
+                    {1,1,1,1,1,1,1,0,1,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,1,1,1,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,1,0,1,0,0,0,0,0,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                     {1,0,0,0,0,0,1,4,0,0,0,0,0,0,4},
                     {1,0,0,0,0,0,1,4,0,0,0,0,0,0,4},
                     {1,0,0,0,0,0,1,4,0,3,3,3,3,0,4},
@@ -49,10 +49,10 @@ public class EscapeRoom extends JFrame implements Runnable{
         image = new BufferedImage(screenSize.width-400, screenSize.height-400, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
         textures = new ArrayList<Textures>();
-        textures.add(Textures.wood);
-        textures.add(Textures.brick);
-        textures.add(Textures.bluestone);
-        textures.add(Textures.chest);
+        textures.add(Textures.wood); // 1
+        textures.add(Textures.brick);// 2
+        textures.add(Textures.door); // 3
+        textures.add(Textures.water);// 4
         camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
         screen = new Screen(map, mapWidth, mapHeight, textures, screenSize.width-400, screenSize.height-400);
         setSize(screenSize.width-400, screenSize.height-400);
@@ -79,7 +79,10 @@ public class EscapeRoom extends JFrame implements Runnable{
         inventory.setVisible(true);
         inventory.getRootPane().setBorder(BorderFactory.createMatteBorder(0,4,4,4,Color.yellow));
 
-
+        /*
+         * TODO Add an action text box 
+         * 	would go somewhere here
+         */
 
     }
     private synchronized void start() {

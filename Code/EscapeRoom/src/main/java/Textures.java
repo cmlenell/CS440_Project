@@ -29,9 +29,9 @@ public class Textures {
         }
 
 
-    public static Textures wood = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\small.png",64);
-    public static Textures brick = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png",64 );
-    public static Textures bluestone = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png", 64);
-    public static Textures chest = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\real.png", 64);
+    public static Textures wood = new Textures("src\\main\\resources\\woodwall.png",64);
+    public static Textures brick = new Textures("src\\main\\resources\\real.png",64 );
+    public static Textures water = new Textures("src\\main\\resources\\floor.png", 64);
+    public static Textures door = new Textures("src\\main\\resources\\door.png", 64);
 }
 

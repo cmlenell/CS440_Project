@@ -20,7 +20,7 @@ public class Screen {
 
         // Fill in ceiling
         for(int n=0; n<pixels.length/2; n++) {
-            if(pixels[n] != Color.GREEN.getRGB()) pixels[n] = Color.GREEN.getRGB();
+            if(pixels[n] != Color.DARK_GRAY.getRGB()) pixels[n] = Color.DARK_GRAY.getRGB();
         }
 
         double posX = 22.0, posY = 11.5;  //x and y start position
@@ -154,8 +154,21 @@ public class Screen {
                     side = 1;
                 }
                 //Check if ray has hit a wall
-                //System.out.println(mapX + ", " + mapY + ", " + map[mapX][mapY]);
-                if(map[mapX][mapY] > 0) hit = true;
+                //System.out.println(mapX + ", " + mapY + ", " + map[mapX][mapY]); !!!!!!!!!!!
+                if(map[mapX][mapY] > 0) 
+                	hit = true;
+                
+                // if you LOOK at the door wall then change some wall on the map
+                // (want to make it TOUCH.. Possible button mechanic/unlocking doors after item pickup or something) 
+                // cannot be looking at the block u change
+                if(map[mapX][mapY] == 3)
+                {
+                	map[2][2] = 2;
+                }
+                if(map[mapX][mapY] == 2)
+                {
+                	map[4][11] = 0;
+                }
             }
 
             //Calculate distance to the point of impact
@@ -175,7 +188,7 @@ public class Screen {
             else lineHeight = height;
             //calculate lowest and highest pixel to fill in current stripe
             int drawStart;
-            if (texNum == 0){ drawStart = -lineHeight/16+ height/2;}
+            if (texNum == 0){ drawStart = -lineHeight/2+ height/2;} //changed -lineHeight/16
             else  drawStart = -lineHeight/2+ height/2;
             if(drawStart < 0)
                 drawStart = 0;
