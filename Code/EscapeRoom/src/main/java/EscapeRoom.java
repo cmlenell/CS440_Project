@@ -16,6 +16,7 @@ public class EscapeRoom extends JFrame implements Runnable{
     private BufferedImage image;
     public int[] pixels;
     public ArrayList<Textures> textures;
+    public ArrayList<Sprites> sprites;
     public Camera camera;
     public Screen screen;
     public Dimension screenSize;
@@ -53,8 +54,13 @@ public class EscapeRoom extends JFrame implements Runnable{
         textures.add(Textures.brick);// 2
         textures.add(Textures.door); // 3
         textures.add(Textures.water);// 4
+        sprites = new ArrayList<Sprites>();
+        sprites.add(new Sprites(3.5,3.5, Textures.barrel));
+        sprites.add(new Sprites(3.5,4.5, Textures.barrel));
+        sprites.add(new Sprites(5.5,1.5, Textures.barrel));
+        sprites.add(new Sprites(2.5,4.5, Textures.barrel));
         camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
-        screen = new Screen(map, mapWidth, mapHeight, textures, screenSize.width-400, screenSize.height-400);
+        screen = new Screen(map, mapWidth, mapHeight, textures, sprites, screenSize.width-400, screenSize.height-400);
         setSize(screenSize.width-400, screenSize.height-400);
         setUndecorated(true);
         addKeyListener(camera);
@@ -80,7 +86,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         inventory.getRootPane().setBorder(BorderFactory.createMatteBorder(0,4,4,4,Color.yellow));
 
         /*
-         * TODO Add an action text box 
+         * TODO Add an action text box
          * 	would go somewhere here
          */
 
