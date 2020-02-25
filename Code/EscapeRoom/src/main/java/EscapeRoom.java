@@ -4,10 +4,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.JOptionPane;
 
 public class EscapeRoom extends JFrame implements Runnable{
-
+    private boolean  seenDoor = false;
     private static final long serialVersionUID = 1L;
     public int mapWidth = 15;
     public int mapHeight = 15;
@@ -110,7 +110,6 @@ public class EscapeRoom extends JFrame implements Runnable{
 
     }
     public void run() {
-
         long lastTime = System.nanoTime();
         final double ns = 1000000000.0 / 30.0;//60 times per second
         double delta = 0;
@@ -123,6 +122,11 @@ public class EscapeRoom extends JFrame implements Runnable{
             {
                 //handles all of the logic restricted time
                 screen.update(camera, pixels);
+                if (map[screen.xPlayerpostion][screen.yPlayerpostion] == 3 && !seenDoor && (camera.yPos>= 9 && camera.xPos>=2)){
+                    System.out.println("Player Location: "+ camera.xPos + ", " + camera.yPos);
+                    JOptionPane.showMessageDialog(game,"Hello");
+                    seenDoor = true;
+                }
                 camera.update(map);
 
                 delta--;
@@ -132,6 +136,10 @@ public class EscapeRoom extends JFrame implements Runnable{
     }
     public static void main(String [] args) {
         game = new EscapeRoom();
-
+        // This JOptionPane is to only show at the start of the game
+        JOptionPane.showMessageDialog(game,"USE THE ARROWS KEYS TO MOVE CHARACTER" + "\n"+
+                "Move Foward: Up Arrow" + "\n"+
+                "Move Backward: Down Arrow" + "\n"+
+                "Move Camera Left/Right: Left and Right Arrows");
     }
 }

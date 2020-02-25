@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
     public class Camera implements KeyListener {
@@ -20,7 +21,6 @@ import java.awt.event.KeyListener;
         }
 
         public void keyPressed(KeyEvent key) {
-
             if((key.getKeyCode() == KeyEvent.VK_LEFT))
                 left = true;
             if((key.getKeyCode() == KeyEvent.VK_RIGHT))

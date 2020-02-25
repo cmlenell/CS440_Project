@@ -1,9 +1,7 @@
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import javax.imageio.ImageIO;
 public class Textures {
         public int[] pixels;
@@ -30,7 +28,7 @@ public class Textures {
 
 
     public static Textures wood = new Textures("src\\main\\resources\\woodwall.png",64);
-    public static Textures brick = new Textures("src\\main\\resources\\real.png",64 );
+    public static Textures brick = new Textures("src\\main\\resources\\sign.png",64 );
     public static Textures water = new Textures("src\\main\\resources\\floor.png", 64);
     public static Textures door = new Textures("src\\main\\resources\\door.png", 64);
 }

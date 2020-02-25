@@ -6,6 +6,8 @@ public class Screen {
     public int[][] map;
     public int mapWidth, mapHeight, width, height;
     public ArrayList<Textures> textures;
+    public int xPlayerpostion;
+    public int yPlayerpostion;
 
     public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, int w, int h) {
         map = m;
@@ -14,6 +16,7 @@ public class Screen {
         textures = tex;
         width = w;
         height = h;
+
     }
 
     public int[] update(Camera camera, int[] pixels) {
@@ -23,7 +26,7 @@ public class Screen {
             if(pixels[n] != Color.DARK_GRAY.getRGB()) pixels[n] = Color.DARK_GRAY.getRGB();
         }
 
-        double posX = 22.0, posY = 11.5;  //x and y start position
+        double posX = 4.5, posY = 4.5;  //x and y start position
         double dirX = -1.0, dirY = 0.0; //initial direction vector
         double planeX = 0.0, planeY = 0.66; //the 2d raycaster version of camera plane
         //FLOOR CASTING
@@ -161,6 +164,9 @@ public class Screen {
                 // if you LOOK at the door wall then change some wall on the map
                 // (want to make it TOUCH.. Possible button mechanic/unlocking doors after item pickup or something) 
                 // cannot be looking at the block u change
+                // These two int variables are public in the class to give permission to what block the player is looking at
+                xPlayerpostion = mapX;
+                yPlayerpostion = mapY;
                 if(map[mapX][mapY] == 3)
                 {
                 	map[2][2] = 2;
@@ -169,6 +175,7 @@ public class Screen {
                 {
                 	map[4][11] = 0;
                 }
+
             }
 
             //Calculate distance to the point of impact
