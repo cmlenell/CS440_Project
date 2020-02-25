@@ -1,25 +1,40 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.awt.Color;
 import java.util.Vector;
+import javafx.util.Pair;
+import java.lang.Math;
 
 public class Screen {
     public int[][] map;
     public int mapWidth, mapHeight, width, height;
     public ArrayList<Textures> textures;
+<<<<<<< HEAD
     public int xPlayerpostion;
     public int yPlayerpostion;
+=======
+    public ArrayList<Sprites> sprites;
+>>>>>>> d790a2f3c9aa2e76cc8bad3d4fa5458be37bb160
 
-    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, int w, int h) {
+    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h) {
         map = m;
         mapWidth = mapW;
         mapHeight = mapH;
         textures = tex;
+        sprites = _sprites;
         width = w;
         height = h;
 
     }
 
     public int[] update(Camera camera, int[] pixels) {
+
+        //arrays used to sort the sprites
+        int[] spriteOrder = new int[sprites.size()];
+        double[] spriteDistance = new double[sprites.size()];
+
+        // buffer for sprite casting
+        double[] ZBuffer = new double[width];
 
         // Fill in ceiling
         for(int n=0; n<pixels.length/2; n++) {
@@ -29,9 +44,10 @@ public class Screen {
         double posX = 4.5, posY = 4.5;  //x and y start position
         double dirX = -1.0, dirY = 0.0; //initial direction vector
         double planeX = 0.0, planeY = 0.66; //the 2d raycaster version of camera plane
-        //FLOOR CASTING
 
-        // Make some random textures for the floor and ceiling
+        //FLOOR AND CEILING CASTING
+
+        /* Make some random textures for the floor and ceiling
         Vector<Integer> floor_texture = new Vector<>();
         Vector<Integer> ceiling_texture = new Vector<>();
 
@@ -41,7 +57,7 @@ public class Screen {
 
                 floor_texture.add(xorcolor + 256 * xorcolor + 65536 * xorcolor);
                 ceiling_texture.add(256 * xorcolor);
-            }
+            }*/
 
         for(int y = 0; y < height; y++)
         {
@@ -88,7 +104,7 @@ public class Screen {
 
                 // floor
                 //color = floor_texture.get(64 * ty + tx);
-                color = textures.get(1).pixels[64*ty+tx];
+                color = textures.get(3).pixels[64*ty+tx];
                 color = (color >> 1) & 8355711; // make a bit darker
                 if( (y*(width) + x) > (pixels.length/2))
                     pixels[y*(width) + x] = color;
@@ -100,8 +116,11 @@ public class Screen {
                 if( ((height - y - 1) * x) < (pixels.length/2))
                     pixels[(height - y - 1) * x] = color;*/
             }
-        }
+        }   // END FLOOR AND CEILING CASTING
 
+
+
+        // WALL CASTING
         for(int x=0; x<width; x=x+1) {
             double cameraX = 2 * x / (double)(width) -1;
             double rayDirX = camera.xDir + camera.xPlane * cameraX;
@@ -158,22 +177,22 @@ public class Screen {
                 }
                 //Check if ray has hit a wall
                 //System.out.println(mapX + ", " + mapY + ", " + map[mapX][mapY]); !!!!!!!!!!!
-                if(map[mapX][mapY] > 0) 
-                	hit = true;
-                
+                if(map[mapX][mapY] > 0)
+                    hit = true;
+
                 // if you LOOK at the door wall then change some wall on the map
-                // (want to make it TOUCH.. Possible button mechanic/unlocking doors after item pickup or something) 
+                // (want to make it TOUCH.. Possible button mechanic/unlocking doors after item pickup or something)
                 // cannot be looking at the block u change
                 // These two int variables are public in the class to give permission to what block the player is looking at
                 xPlayerpostion = mapX;
                 yPlayerpostion = mapY;
                 if(map[mapX][mapY] == 3)
                 {
-                	map[2][2] = 2;
+                    map[2][2] = 2;
                 }
                 if(map[mapX][mapY] == 2)
                 {
-                	map[4][11] = 0;
+                    map[4][11] = 0;
                 }
 
             }
@@ -225,7 +244,124 @@ public class Screen {
                 else color = (textures.get(texNum).pixels[texX + (texY * textures.get(texNum).SIZE)]>>1) & 8355711;//Change texNum to change front and back texture
                 pixels[x + y*(width)] = color;
             }
+            ZBuffer[x] = perpWallDist;
         }
+        // END WALL CASTING
+
+        //SPRITE CASTING
+        //sort sprites from far to close
+        for(int i = 0; i < sprites.size(); i++)
+        {
+            spriteOrder[i] = i;
+            spriteDistance[i] = ((posX - sprites.get(i).x) * (posX - sprites.get(i).x) + (posY - sprites.get(i).y) * (posY - sprites.get(i).y)); //sqrt not taken, unneeded
+        }
+        //sortSprites(spriteOrder, spriteDistance, sprites.size());
+
+        //after sorting the sprites, do the projection and draw them
+        for(int i = 0; i < sprites.size(); i++) {
+            //translate sprite position to relative to camera
+            double spriteX = sprites.get(spriteOrder[i]).x - posX;
+            double spriteY = sprites.get(spriteOrder[i]).y - posY;
+
+            //transform sprite with the inverse camera matrix
+            // [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+            // [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+            // [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+            double invDet = 1.0 / (planeX * dirY - dirX * planeY); //required for correct matrix multiplication
+
+            double transformX = invDet * (dirY * spriteX - dirX * spriteY);
+            double transformY = invDet * (-planeY * spriteX + planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+            int spriteScreenX = (int) ((width / 2) * (1 + transformX / transformY));
+
+            //parameters for scaling and moving the sprites
+            //#define uDiv 1
+            //#define vDiv 1
+            //#define vMove 0.0
+            //int vMoveScreen = int(vMove / transformY);
+
+            //calculate height of the sprite on screen
+            int spriteHeight = Math.abs((int) (height / (transformY))); //using "transformY" instead of the real distance prevents fisheye
+            //calculate lowest and highest pixel to fill in current stripe
+            int drawStartY = -spriteHeight / 2 + height / 2;
+            if (drawStartY < 0)
+                drawStartY = 0;
+            int drawEndY = spriteHeight / 2 + height / 2;
+            if (drawEndY >= height)
+                drawEndY = height - 1;
+
+            //calculate width of the sprite
+            int spriteWidth = Math.abs((int) (height / (transformY)));
+            int drawStartX = -spriteWidth / 2 + spriteScreenX;
+            if (drawStartX < 0)
+                drawStartX = 0;
+            int drawEndX = spriteWidth / 2 + spriteScreenX;
+            if (drawEndX >= width)
+                drawEndX = width - 1;
+
+            //loop through every vertical stripe of the sprite on screen
+            for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
+                int texX = (int) (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 64 / spriteWidth) / 256;
+                //the conditions in the if are:
+                //1) it's in front of camera plane so you don't see things behind you
+                //2) it's on the screen (left)
+                //3) it's on the screen (right)
+                //4) ZBuffer, with perpendicular distance
+                //System.out.println(transformY + " " + stripe + " " + ZBuffer[stripe]);
+
+                if(transformY > 0 && stripe > 0 && stripe < width && transformY < ZBuffer[stripe]) {
+                System.out.println(stripe);
+                for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+                    {
+                    int d = y * 256 - height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+                    int texY = ((d * 64) / spriteHeight) / 256;
+                    int color = sprites.get(spriteOrder[i]).texture.pixels[64 * texY + texX]; //get current color from the texture
+                    if ((color & 0x00FFFFFF) != 0) //paint pixel if it isn't black, black is the invisible color
+                        pixels[y * stripe] = color;
+                 }
+                }
+             }
+        }
+
+
         return pixels;
     }
+
+/*      Trying to convert this to java code
+    //sort the sprites based on distance
+    void sortSprites(int[] order, double[] dist, int amount)
+    {
+
+        Vector s = new Vector(amount);
+        //Vector<Pair<Double, Integer>> sprites(amount);
+        for(int i = 0; i < amount; i++) {
+            double first = dist[i];
+            int second = order[i];
+            s.add(new Pair(first,second));
+        }
+        s.sort();
+        // restore in reverse order to go from farthest to nearest
+        for(int i = 0; i < amount; i++) {
+            dist[i] = s.get(amount - i - 1).getKey();
+            order[i] = s.get(amount - i - 1).getValue();
+        }
+
+        // Original c++ code
+     //sort the sprites based on distance
+     void sortSprites(int* order, double* dist, int amount)
+        {
+            std::vector<std::pair<double, int>> sprites(amount);
+            for(int i = 0; i < amount; i++) {
+            sprites[i].first = dist[i];
+             sprites[i].second = order[i];
+         }
+             std::sort(sprites.begin(), sprites.end());
+            // restore in reverse order to go from farthest to nearest
+            for(int i = 0; i < amount; i++) {
+                dist[i] = sprites[amount - i - 1].first;
+                order[i] = sprites[amount - i - 1].second;
+           }
+
+        */
 }
