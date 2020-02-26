@@ -9,12 +9,9 @@ public class Screen {
     public int[][] map;
     public int mapWidth, mapHeight, width, height;
     public ArrayList<Textures> textures;
-<<<<<<< HEAD
     public int xPlayerpostion;
     public int yPlayerpostion;
-=======
     public ArrayList<Sprites> sprites;
->>>>>>> d790a2f3c9aa2e76cc8bad3d4fa5458be37bb160
 
     public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h) {
         map = m;
@@ -248,7 +245,7 @@ public class Screen {
         }
         // END WALL CASTING
 
-        //SPRITE CASTING
+        /*//SPRITE CASTING
         //sort sprites from far to close
         for(int i = 0; i < sprites.size(); i++)
         {
@@ -323,7 +320,7 @@ public class Screen {
                 }
              }
         }
-
+*/
 
         return pixels;
     }
