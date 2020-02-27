@@ -36,7 +36,7 @@ public class Camera implements KeyListener {
                 back = true;
             if((key.getKeyCode() == KeyEvent.VK_E)) {
                 interact = true;
-                System.out.println("Player Location: " + xPos + " ," + yPos);
+               // System.out.println("Player Location: " + xPos + " ," + yPos);  // Use for debugging what is a good distance from a item that you can pick up
             }
 
 

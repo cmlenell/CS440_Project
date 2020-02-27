@@ -27,7 +27,7 @@ public class Textures {
         }
 
 
-
+   // An running array list of the current textures that are included in the game as of now
     static Textures wall = new Textures("src\\main\\resources\\walltexture.png",64);
     static Textures brick = new Textures("src\\main\\resources\\sign.png",64 );
     static Textures water = new Textures("src\\main\\resources\\floor.png", 64);

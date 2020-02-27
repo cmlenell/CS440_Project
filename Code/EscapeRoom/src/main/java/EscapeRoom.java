@@ -56,8 +56,6 @@ public class EscapeRoom extends JFrame implements Runnable{
 
 
     public EscapeRoom()  {
-
-
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         thread = new Thread(this);
         image = new BufferedImage(screenSize.width-400, screenSize.height-400, BufferedImage.TYPE_INT_RGB);
@@ -158,9 +156,10 @@ public class EscapeRoom extends JFrame implements Runnable{
                 "Move Camera Left/Right: Left and Right Arrows");
     }
     void gameChecks(){
-
-
-        if ((camera.yPos > 12.5 && camera.yPos < 13  )&& (camera.xPos > 1 && camera.xPos < 2) && !character.HasDoorKey()){
+ /* This method is used to check player location to make sure they are able to pickup items or not. It will be using the camera x and y pos to
+ determine player location. Also with the use of the player class, it will check if the player has that current item or not at the moment
+  */
+        if ((camera.yPos > 12.2 && camera.yPos < 13  )&& (camera.xPos > 1 && camera.xPos < 2) && !character.HasDoorKey()){
             if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
                 playPickupSound();
                 sprites.remove(doorKey);
@@ -176,7 +175,7 @@ public class EscapeRoom extends JFrame implements Runnable{
             isDoorOpen = true;
         }
 
-        if ((camera.xPos >4 && camera.xPos < 5 ) && ( camera.yPos > 5 && camera.yPos < 6) && isDoorOpen){
+        if ((camera.xPos >4 && camera.xPos < 5 ) && ( camera.yPos > 5 && camera.yPos < 6) && isDoorOpen && !character.HasChestKey()){
             if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
                 playPickupSound();
                 sprites.remove(redKey);
