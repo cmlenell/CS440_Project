@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
         public boolean left, right, forward, back, interact;
         public final double MOVE_SPEED = .10;
         public final double ROTATION_SPEED = .085;
+        public boolean deleteRedkey = false;
         public Camera(double x, double y, double xd, double yd, double xp, double yp)
         {
             xPos = x;
@@ -59,6 +60,7 @@ import java.awt.event.KeyListener;
                 if(map[(int)xPos][(int)(yPos - yDir * MOVE_SPEED)]==0)
                     yPos-=yDir*MOVE_SPEED;
             }
+
             if(right) {
                 double oldxDir=xDir;
                 xDir=xDir*Math.cos(-ROTATION_SPEED) - yDir*Math.sin(-ROTATION_SPEED);
@@ -75,5 +77,6 @@ import java.awt.event.KeyListener;
                 xPlane=xPlane*Math.cos(ROTATION_SPEED) - yPlane*Math.sin(ROTATION_SPEED);
                 yPlane=oldxPlane*Math.sin(ROTATION_SPEED) + yPlane*Math.cos(ROTATION_SPEED);
             }
+
         }
     }
