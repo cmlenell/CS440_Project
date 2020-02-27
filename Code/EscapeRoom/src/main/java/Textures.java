@@ -27,13 +27,13 @@ public class Textures {
         }
 
 
-    public static Textures wall = new Textures("src\\main\\resources\\walltexture.png",64);
+    public static Textures wall = new Textures("src\\main\\resources\\woodwall.png",64);
     public static Textures brick = new Textures("src\\main\\resources\\sign.png",64 );
     public static Textures water = new Textures("src\\main\\resources\\floor.png", 64);
     public static Textures door = new Textures("src\\main\\resources\\door.png", 64);
-
-    public static Textures barrel = new Textures("C:\\Users\\Deonvell Shed\\Documents\\GitHub\\Group-1-Spring-2020\\Code\\EscapeRoom\\src\\main\\resources\\barrel.png",64);
-
+    public static Textures temp = new Textures("src\\main\\resources\\unused1.png", 64);
+    public static Textures barrel = new Textures("src\\main\\resources\\barrel.png",64);
+    public static Textures redKey = new Textures("src\\main\\resources\\key.png",64);
 
 }
 

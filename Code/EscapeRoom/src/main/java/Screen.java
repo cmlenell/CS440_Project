@@ -176,11 +176,9 @@ public class Screen {
                 // These two int variables are public in the class to give permission to what block the player is looking at
                 xPlayerpostion = mapX;
                 yPlayerpostion = mapY;
-                if (map[mapX][mapY] == 3) {
+                if (map[mapX][mapY] == 5) 
+                {
                     map[2][2] = 2;
-                }
-                if (map[mapX][mapY] == 2) {
-                    map[4][11] = 0;
                 }
 
             }
