@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
     public class Camera implements KeyListener {
         public double xPos, yPos, xDir, yDir, xPlane, yPlane;
-        public boolean left, right, forward, back;
+        public boolean left, right, forward, back, interact;
         public final double MOVE_SPEED = .10;
         public final double ROTATION_SPEED = .085;
         public Camera(double x, double y, double xd, double yd, double xp, double yp)
@@ -29,6 +29,8 @@ import java.awt.event.KeyListener;
                 forward = true;
             if((key.getKeyCode() == KeyEvent.VK_DOWN))
                 back = true;
+            if((key.getKeyCode() == KeyEvent.VK_E))
+                interact = true;
         }
 
         public void keyReleased(KeyEvent key) {
@@ -40,6 +42,8 @@ import java.awt.event.KeyListener;
                 forward = false;
             if((key.getKeyCode() == KeyEvent.VK_DOWN))
                 back = false;
+            if((key.getKeyCode() == KeyEvent.VK_E))
+                interact = false;
         }
         public void update(int[][] map) {
             if(forward) {

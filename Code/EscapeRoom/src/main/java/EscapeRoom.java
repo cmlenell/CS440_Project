@@ -116,6 +116,11 @@ public class EscapeRoom extends JFrame implements Runnable{
             createBufferStrategy(3);
             return;
         }
+        if((int)camera.xPos == 3 && (int)camera.yPos == 11 && camera.interact == true)
+        {
+        	// play door sound would go here
+        	map[4][11] = 0;
+        }
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, image.getWidth(),image.getHeight(),null);
 
