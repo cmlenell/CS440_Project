@@ -16,9 +16,10 @@ public class Screen {
     public int yPlayerpostion;
 
     public ArrayList<Sprites> sprites;
+    public boolean seenDoor;
 
 
-    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h) {
+    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h, boolean door) {
         map = m;
         mapWidth = mapW;
         mapHeight = mapH;
@@ -26,10 +27,14 @@ public class Screen {
         sprites = _sprites;
         width = w;
         height = h;
+        seenDoor = door;
 
     }
 
     public int[] update(Camera camera, int[] pixels) {
+        if (camera.deleteRedkey && seenDoor){
+            sprites.remove(2);
+        }
 
         //arrays used to sort the sprites
         int[] spriteOrder = new int[sprites.size()];
@@ -176,9 +181,10 @@ public class Screen {
                 // These two int variables are public in the class to give permission to what block the player is looking at
                 xPlayerpostion = mapX;
                 yPlayerpostion = mapY;
-                if (map[mapX][mapY] == 3) {
+              /*  if (map[mapX][mapY] == 3) {
                     map[2][2] = 2;
-                }
+                    sprites.add(new Sprites(4.5,5.5,Textures.redKey));
+                } */
                 if (map[mapX][mapY] == 2) {
                     map[4][11] = 0;
                 }
