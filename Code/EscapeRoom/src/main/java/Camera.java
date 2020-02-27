@@ -7,7 +7,7 @@ public class Camera implements KeyListener {
         double xPos, yPos, xDir, yDir, xPlane, yPlane;
         private boolean left, right, forward, back, interact;
         private final double MOVE_SPEED = .10;
-        private final double ROTATION_SPEED = .085;
+        private double rotationSpeed = .085;
         boolean deleteRedkey = false;
         private KeyEvent lastKey;
         Camera(double x, double y, double xd, double yd, double xp, double yp)
@@ -72,23 +72,28 @@ public class Camera implements KeyListener {
 
             if(right) {
                 double oldxDir=xDir;
-                xDir=xDir*Math.cos(-ROTATION_SPEED) - yDir*Math.sin(-ROTATION_SPEED);
-                yDir=oldxDir*Math.sin(-ROTATION_SPEED) + yDir*Math.cos(-ROTATION_SPEED);
+                xDir=xDir*Math.cos(-rotationSpeed) - yDir*Math.sin(-rotationSpeed);
+                yDir=oldxDir*Math.sin(-rotationSpeed) + yDir*Math.cos(-rotationSpeed);
                 double oldxPlane = xPlane;
-                xPlane=xPlane*Math.cos(-ROTATION_SPEED) - yPlane*Math.sin(-ROTATION_SPEED);
-                yPlane=oldxPlane*Math.sin(-ROTATION_SPEED) + yPlane*Math.cos(-ROTATION_SPEED);
+                xPlane=xPlane*Math.cos(-rotationSpeed) - yPlane*Math.sin(-rotationSpeed);
+                yPlane=oldxPlane*Math.sin(-rotationSpeed) + yPlane*Math.cos(-rotationSpeed);
             }
             if(left) {
                 double oldxDir=xDir;
-                xDir=xDir*Math.cos(ROTATION_SPEED) - yDir*Math.sin(ROTATION_SPEED);
-                yDir=oldxDir*Math.sin(ROTATION_SPEED) + yDir*Math.cos(ROTATION_SPEED);
+                xDir=xDir*Math.cos(rotationSpeed) - yDir*Math.sin(rotationSpeed);
+                yDir=oldxDir*Math.sin(rotationSpeed) + yDir*Math.cos(rotationSpeed);
                 double oldxPlane = xPlane;
-                xPlane=xPlane*Math.cos(ROTATION_SPEED) - yPlane*Math.sin(ROTATION_SPEED);
-                yPlane=oldxPlane*Math.sin(ROTATION_SPEED) + yPlane*Math.cos(ROTATION_SPEED);
+                xPlane=xPlane*Math.cos(rotationSpeed) - yPlane*Math.sin(rotationSpeed);
+                yPlane=oldxPlane*Math.sin(rotationSpeed) + yPlane*Math.cos(rotationSpeed);
             }
 
         }
         public KeyEvent getLastKey(){
             return lastKey;
+        }
+        
+        //Sets the rotation speed to a value chosen by the user in the pause menu
+        public void setRotationSpeed(double rotationSpeed) {
+        	this.rotationSpeed = rotationSpeed;
         }
     }
