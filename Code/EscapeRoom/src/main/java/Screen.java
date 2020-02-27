@@ -52,19 +52,6 @@ public class Screen {
         double dirX = camera.xDir, dirY = camera.yDir; //initial direction vector
         double planeX = camera.xPlane, planeY = camera.yPlane; //the 2d raycaster version of camera plane
 
-        //FLOOR AND CEILING CASTING
-
-        /* Make some random textures for the floor and ceiling
-        Vector<Integer> floor_texture = new Vector<>();
-        Vector<Integer> ceiling_texture = new Vector<>();
-
-        for(int x = 0; x < 64; x++)
-            for(int y = 0; y < 64; y++) {
-                int xorcolor = (x * 256 / 64) ^ (y * 256 / 64);
-
-                floor_texture.add(xorcolor + 256 * xorcolor + 65536 * xorcolor);
-                ceiling_texture.add(256 * xorcolor);
-            }*/
 
         for (int y = 0; y < height; y++) {
             // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
@@ -171,7 +158,7 @@ public class Screen {
                     side = 1;
                 }
                 //Check if ray has hit a wall
-                //System.out.println(mapX + ", " + mapY + ", " + map[mapX][mapY]); !!!!!!!!!!!
+
                 if (map[mapX][mapY] > 0)
                     hit = true;
 
@@ -181,13 +168,7 @@ public class Screen {
                 // These two int variables are public in the class to give permission to what block the player is looking at
                 xPlayerpostion = mapX;
                 yPlayerpostion = mapY;
-              /*  if (map[mapX][mapY] == 3) {
-                    map[2][2] = 2;
-                    sprites.add(new Sprites(4.5,5.5,Textures.redKey));
-                } */
-                if (map[mapX][mapY] == 2) {
-                    map[4][11] = 0;
-                }
+
 
             }
 
@@ -301,12 +282,6 @@ public class Screen {
             //loop through every vertical stripe of the sprite on screen
             for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
                 int texX = 256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 64 / spriteWidth / 256;
-                //the conditions in the if are:
-                //1) it's in front of camera plane so you don't see things behind you
-                //2) it's on the screen (left)
-                //3) it's on the screen (right)
-                //4) ZBuffer, with perpendicular distance
-                //System.out.println(transformY + " " + stripe + " " + ZBuffer[stripe]);
 
                 if (transformY > 0 && stripe > 0 && stripe < width && transformY < ZBuffer[stripe]) {
 
@@ -340,7 +315,7 @@ public class Screen {
 
 
         };
-       // Collections.sort(s);
+       // Using a bubble sort to sort the vector of sprites
         int i, j;
 
         for(i = 0; i < amount; i++) {

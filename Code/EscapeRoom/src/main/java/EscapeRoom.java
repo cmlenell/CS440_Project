@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -7,32 +8,31 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 
 public class EscapeRoom extends JFrame implements Runnable{
     private boolean  seenDoor = false;
     private static final long serialVersionUID = 1L;
-    public int mapWidth = 15;
-    public int mapHeight = 15;
+    private int mapWidth = 15;
+    private int mapHeight = 15;
     private Thread thread;
     private boolean running;
     private BufferedImage image;
-    public int[] pixels;
-    public ArrayList<Textures> textures;
-    public ArrayList<Sprites> sprites;
-    public Camera camera;
-    public Screen screen;
-    public Dimension screenSize;
+    private int[] pixels;
+    private ArrayList<Textures> textures;
+    private ArrayList<Sprites> sprites;
+    private Camera camera;
+    private Screen screen;
+    private Dimension screenSize;
     private static EscapeRoom game;
-    private static JFrame inventory;
-    public static JPanel bottom;
-    Sprites redKey = new Sprites(4.5,5.5,Textures.redKey);
-    public static int[][] Slocation =
-            {
-                    {2,1,1}
-            };
-
+    private static JFrame inventory;  // Bottom container Jframe
+    private static JPanel bottom;
+    private static Sprites redKey = new Sprites(4.5,5.5,Textures.redKey);
+    private static Sprites doorKey = new Sprites(1.5,13,Textures.doorKey);
+    private Player character;
+    private boolean isDoorOpen = false;
 
 
     public static int[][] map =
@@ -55,7 +55,8 @@ public class EscapeRoom extends JFrame implements Runnable{
             };
 
 
-    public EscapeRoom() {
+    public EscapeRoom()  {
+
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         thread = new Thread(this);
@@ -70,6 +71,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         sprites.add(new Sprites(3.5,3.5, Textures.barrel));
         sprites.add(new Sprites(3.5,4.5, Textures.barrel));
         sprites.add(new Sprites(7,11.5,Textures.chest));
+        sprites.add(doorKey);
         camera = new Camera(4.5, 5.5, 1, 0, 0, -.66);
         screen = new Screen(map, mapWidth, mapHeight, textures, sprites, screenSize.width-400, screenSize.height-400,seenDoor);
         setSize(screenSize.width-400, screenSize.height-400);
@@ -82,6 +84,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         setLocationRelativeTo(null);
         setVisible(true);
         start();
+        character = new Player();
 
         // This section is all for the bottom of the screen inventory
         final Rectangle mainScreen = this.getBounds();
@@ -96,10 +99,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         inventory.setVisible(true);
         inventory.getRootPane().setBorder(BorderFactory.createMatteBorder(0,4,4,4,Color.yellow));
 
-        /*
-         * TODO Add an action text box
-         * 	would go somewhere here
-         */
+
 
     }
     private synchronized void start() {
@@ -141,22 +141,8 @@ public class EscapeRoom extends JFrame implements Runnable{
                 //handles all of the logic restricted time
                 screen.update(camera, pixels);
 
-                if (map[screen.xPlayerpostion][screen.yPlayerpostion] == 3 && !seenDoor && (camera.yPos>= 9 && camera.xPos>=2)){
-                    map[2][2] = 2;
-                    map[4][11] = 0;
-                    sprites.add(redKey);
-                    System.out.println("Player Location: "+ camera.xPos + ", " + camera.yPos);
-                    JOptionPane.showMessageDialog(game,"Escape the room by finding the key to open the chest!");
-                    seenDoor = true;
-                }
+               gameChecks();
 
-                if ((camera.xPos >4 && camera.xPos < 5 ) && ( camera.yPos > 5 && camera.yPos < 6) && seenDoor){
-                        sprites.remove(redKey);
-                    ImageIcon image = new ImageIcon(this.getClass().getResource("/redKey.png"));
-                    JLabel panel = new JLabel(image);
-                    bottom.add(panel);
-                    inventory.repaint();
-                }
                 camera.update(map);
                 delta--;
             }
@@ -170,6 +156,31 @@ public class EscapeRoom extends JFrame implements Runnable{
                 "Move Foward: Up Arrow" + "\n"+
                 "Move Backward: Down Arrow" + "\n"+
                 "Move Camera Left/Right: Left and Right Arrows");
+    }
+    void gameChecks(){
+
+
+        if ((camera.yPos > 12.5 && camera.yPos < 13  )&& (camera.xPos > 1 && camera.xPos < 2) && !character.isHasDoorKey()){
+            if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
+                sprites.remove(doorKey);
+                character.setHasDoorKey();
+                sprites.add(redKey);
+                System.out.println("Player Location: " + camera.xPos + ", " + camera.yPos);
+            }
+
+        }
+        if ((camera.yPos >10 && camera.yPos <11.5) && (camera.xPos > 3.8) && character.isHasDoorKey() && !isDoorOpen){
+            map[4][11] = 0;
+            map[2][2] = 2;
+            isDoorOpen = true;
+        }
+
+        if ((camera.xPos >4 && camera.xPos < 5 ) && ( camera.yPos > 5 && camera.yPos < 6) && isDoorOpen){
+            if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
+                sprites.remove(redKey);
+                character.setHasChestKey();
+            }
+        }
     }
 
 }

@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-    public class Camera implements KeyListener {
-        public double xPos, yPos, xDir, yDir, xPlane, yPlane;
-        public boolean left, right, forward, back, interact;
-        public final double MOVE_SPEED = .10;
-        public final double ROTATION_SPEED = .085;
-        public boolean deleteRedkey = false;
-        public Camera(double x, double y, double xd, double yd, double xp, double yp)
+
+
+public class Camera implements KeyListener {
+        double xPos, yPos, xDir, yDir, xPlane, yPlane;
+        private boolean left, right, forward, back, interact;
+        private final double MOVE_SPEED = .10;
+        private final double ROTATION_SPEED = .085;
+        boolean deleteRedkey = false;
+        private KeyEvent lastKey;
+        Camera(double x, double y, double xd, double yd, double xp, double yp)
         {
             xPos = x;
             yPos = y;
@@ -22,6 +25,7 @@ import java.awt.event.KeyListener;
         }
 
         public void keyPressed(KeyEvent key) {
+
             if((key.getKeyCode() == KeyEvent.VK_LEFT))
                 left = true;
             if((key.getKeyCode() == KeyEvent.VK_RIGHT))
@@ -30,11 +34,16 @@ import java.awt.event.KeyListener;
                 forward = true;
             if((key.getKeyCode() == KeyEvent.VK_DOWN))
                 back = true;
-            if((key.getKeyCode() == KeyEvent.VK_E))
+            if((key.getKeyCode() == KeyEvent.VK_E)) {
                 interact = true;
+                System.out.println("Player Location: " + xPos + " ," + yPos);
+            }
+
+
         }
 
         public void keyReleased(KeyEvent key) {
+            lastKey = key;
             if((key.getKeyCode() == KeyEvent.VK_LEFT))
                 left = false;
             if((key.getKeyCode() == KeyEvent.VK_RIGHT))
@@ -78,5 +87,8 @@ import java.awt.event.KeyListener;
                 yPlane=oldxPlane*Math.sin(ROTATION_SPEED) + yPlane*Math.cos(ROTATION_SPEED);
             }
 
+        }
+        public KeyEvent getLastKey(){
+            return lastKey;
         }
     }
