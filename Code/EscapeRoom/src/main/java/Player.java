@@ -5,8 +5,11 @@ class Player {
         hasChestKey = false;
         hasDoorKey = false;
     }
-    boolean isHasDoorKey(){
+    public boolean HasDoorKey(){
         return hasDoorKey;
+    }
+    public boolean HasChestKey(){
+        return hasChestKey;
     }
 
     void setHasDoorKey(){

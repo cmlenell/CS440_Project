@@ -68,7 +68,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         textures.add(Textures.door); // 3
         textures.add(Textures.water);// 4
         sprites = new ArrayList<Sprites>();
-        sprites.add(new Sprites(3.5,3.5, Textures.barrel));
+        sprites.add(new Sprites(4,3.5, Textures.barrel));
         sprites.add(new Sprites(3.5,4.5, Textures.barrel));
         sprites.add(new Sprites(7,11.5,Textures.chest));
         sprites.add(doorKey);
@@ -160,8 +160,9 @@ public class EscapeRoom extends JFrame implements Runnable{
     void gameChecks(){
 
 
-        if ((camera.yPos > 12.5 && camera.yPos < 13  )&& (camera.xPos > 1 && camera.xPos < 2) && !character.isHasDoorKey()){
+        if ((camera.yPos > 12.5 && camera.yPos < 13  )&& (camera.xPos > 1 && camera.xPos < 2) && !character.HasDoorKey()){
             if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
+                playPickupSound();
                 sprites.remove(doorKey);
                 character.setHasDoorKey();
                 sprites.add(redKey);
@@ -169,7 +170,7 @@ public class EscapeRoom extends JFrame implements Runnable{
             }
 
         }
-        if ((camera.yPos >10 && camera.yPos <11.5) && (camera.xPos > 3.8) && character.isHasDoorKey() && !isDoorOpen){
+        if ((camera.yPos >10 && camera.yPos <11.5) && (camera.xPos > 3.8) && character.HasDoorKey() && !isDoorOpen){
             map[4][11] = 0;
             map[2][2] = 2;
             isDoorOpen = true;
@@ -177,10 +178,38 @@ public class EscapeRoom extends JFrame implements Runnable{
 
         if ((camera.xPos >4 && camera.xPos < 5 ) && ( camera.yPos > 5 && camera.yPos < 6) && isDoorOpen){
             if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
+                playPickupSound();
                 sprites.remove(redKey);
                 character.setHasChestKey();
             }
         }
+        if ((camera.yPos > 11 && camera.yPos < 11.7) && (camera.xPos > 6.5 && camera.xPos < 7.5) && character.HasChestKey()){
+            if(camera.getLastKey().getKeyCode() == KeyEvent.VK_E) {
+                JOptionPane.showMessageDialog(game, "The chest is open!!! \n You can leave now");
+            }
+        }
+    }
+    // This method is just to be used for pickup item sound effect to warn the player they have the item now
+    void playPickupSound(){
+        Clip clip = null;
+        AudioInputStream sound = null;
+        File file = new File("src\\main\\resources\\ItemPickupSound.wav");
+        try {
+            sound = AudioSystem.getAudioInputStream(file);
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            clip = AudioSystem.getClip();
+            clip.open(sound);
+        } catch (LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
+        assert clip != null;
+        clip.setFramePosition(0);
+        clip.start();
     }
 
 }

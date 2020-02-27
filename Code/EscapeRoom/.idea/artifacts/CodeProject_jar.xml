@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="CodeProject:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/CodeProject_jar</output-path>
-    <root id="archive" name="CodeProject.jar">
-      <element id="module-output" name="CodeProject" />
-    </root>
-  </artifact>
-</component>
