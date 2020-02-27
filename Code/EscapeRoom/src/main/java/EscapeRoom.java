@@ -23,6 +23,10 @@ public class EscapeRoom extends JFrame implements Runnable{
     private static EscapeRoom game;
     private static JFrame inventory;
     public static JPanel bottom;
+    public static int[][] Slocation =
+            {
+                    {2,1,1}
+            };
 
 
 
@@ -44,13 +48,16 @@ public class EscapeRoom extends JFrame implements Runnable{
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
                     {1,1,1,1,1,1,1,4,4,4,4,4,4,4,4}
             };
+
+
     public EscapeRoom() {
+
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         thread = new Thread(this);
         image = new BufferedImage(screenSize.width-400, screenSize.height-400, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
         textures = new ArrayList<Textures>();
-        textures.add(Textures.wood); // 1
+        textures.add(Textures.wall); // 1
         textures.add(Textures.brick);// 2
         textures.add(Textures.door); // 3
         textures.add(Textures.water);// 4
@@ -59,7 +66,7 @@ public class EscapeRoom extends JFrame implements Runnable{
         sprites.add(new Sprites(3.5,4.5, Textures.barrel));
         sprites.add(new Sprites(5.5,1.5, Textures.barrel));
         sprites.add(new Sprites(2.5,4.5, Textures.barrel));
-        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
+        camera = new Camera(4.5, 5.5, 1, 0, 0, -.66);
         screen = new Screen(map, mapWidth, mapHeight, textures, sprites, screenSize.width-400, screenSize.height-400);
         setSize(screenSize.width-400, screenSize.height-400);
         setUndecorated(true);
