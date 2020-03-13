@@ -1,3 +1,4 @@
+package com.escaperoom.ui.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,10 +11,11 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import components.Button;
-import components.Picture;
-import components.SliderPanel;
+import com.escaperoom.ui.component.Button;
+import com.escaperoom.ui.component.Picture;
+import com.escaperoom.ui.component.SliderPanel;
 
+@SuppressWarnings("serial")
 public class OptionsMenu extends JPanel {
 
 	// Cosmetic variables about the buttons

@@ -1,16 +1,21 @@
-import javax.swing.*;
+package com.escaperoom.engine;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
 public class Camera implements KeyListener {
-        double xPos, yPos, xDir, yDir, xPlane, yPlane;
-        private boolean left, right, forward, back, interact;
+        public double xPos;
+		public double yPos;
+		double xDir;
+		double yDir;
+		double xPlane;
+		double yPlane;
+        private boolean left, right, forward, back;
         private final double MOVE_SPEED = .10;
         private double rotationSpeed = .085;
         boolean deleteRedkey = false;
         private KeyEvent lastKey;
-        Camera(double x, double y, double xd, double yd, double xp, double yp)
+        public Camera(double x, double y, double xd, double yd, double xp, double yp)
         {
             xPos = x;
             yPos = y;
@@ -35,7 +40,6 @@ public class Camera implements KeyListener {
             if((key.getKeyCode() == KeyEvent.VK_DOWN))
                 back = true;
             if((key.getKeyCode() == KeyEvent.VK_E)) {
-                interact = true;
                 System.out.println("Player Location: " + xPos + " ," + yPos);
             }
 
@@ -52,8 +56,8 @@ public class Camera implements KeyListener {
                 forward = false;
             if((key.getKeyCode() == KeyEvent.VK_DOWN))
                 back = false;
-            if((key.getKeyCode() == KeyEvent.VK_E))
-                interact = false;
+            if((key.getKeyCode() == KeyEvent.VK_E)) {
+			}
         }
         public void update(int[][] map) {
             if(forward) {

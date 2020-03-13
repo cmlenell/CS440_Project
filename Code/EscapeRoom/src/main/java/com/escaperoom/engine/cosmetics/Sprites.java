@@ -1,7 +1,8 @@
+package com.escaperoom.engine.cosmetics;
 public class Sprites {
-    double x;
-    double y;
-    Textures texture;
+    public double x;
+    public double y;
+    public Textures texture;
 
     public Sprites(double _x, double _y, Textures tex) {
         x = _x;

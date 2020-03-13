@@ -1,16 +1,16 @@
-package components;
+package com.escaperoom.ui.component;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+@SuppressWarnings("serial")
 public class SliderPanel extends JPanel {
 
 	private JLabel sliderLabel;

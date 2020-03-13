@@ -1,4 +1,4 @@
-package components;
+package com.escaperoom.ui.component;
 
 import java.awt.Component;
 import java.awt.Image;
@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class Picture extends JLabel {
 
 	

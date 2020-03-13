@@ -1,11 +1,12 @@
-import javafx.util.Pair;
-
-import java.lang.reflect.Array;
-import java.util.*;
+package com.escaperoom.engine;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Vector;
 
+import com.escaperoom.engine.cosmetics.Sprites;
+import com.escaperoom.engine.cosmetics.Textures;
 
-import java.lang.Math;
+import javafx.util.Pair;
 
 public class Screen {
     public int[][] map;
@@ -16,10 +17,9 @@ public class Screen {
     public int yPlayerpostion;
 
     public ArrayList<Sprites> sprites;
-    public boolean seenDoor;
 
 
-    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h, boolean door) {
+    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h) {
         map = m;
         mapWidth = mapW;
         mapHeight = mapH;
@@ -27,14 +27,10 @@ public class Screen {
         sprites = _sprites;
         width = w;
         height = h;
-        seenDoor = door;
 
     }
 
     public int[] update(Camera camera, int[] pixels) {
-        if (camera.deleteRedkey && seenDoor){
-            sprites.remove(2);
-        }
 
         //arrays used to sort the sprites
         int[] spriteOrder = new int[sprites.size()];
@@ -311,7 +307,7 @@ public class Screen {
             double first = dist[i];
             int second = order[i];
 
-            s.add(new Pair(first,second));
+            s.add(new Pair<Double, Integer>(first,second));
 
 
         };
@@ -321,7 +317,7 @@ public class Screen {
         for(i = 0; i < amount; i++) {
             for(j = 1; j < amount -i; j++) {
                 if (s.get(j-1).getValue() > s.get(j).getValue()) {
-                    Pair temp = s.get(j-1);
+                    Pair<Double, Integer> temp = s.get(j-1);
                     s.set(j-1,s.get(j));
                     s.set(j,temp);
 
