@@ -1,11 +1,12 @@
-import javafx.util.Pair;
-
-import java.lang.reflect.Array;
-import java.util.*;
+package com.escaperoom.engine;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Vector;
 
+import com.escaperoom.engine.cosmetics.Sprites;
+import com.escaperoom.engine.cosmetics.Textures;
 
-import java.lang.Math;
+import javafx.util.Pair;
 
 public class Screen {
     public int[][] map;
@@ -16,10 +17,9 @@ public class Screen {
     public int yPlayerpostion;
 
     public ArrayList<Sprites> sprites;
-    public boolean seenDoor;
 
 
-    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h, boolean door) {
+    public Screen(int[][] m, int mapW, int mapH, ArrayList<Textures> tex, ArrayList<Sprites> _sprites, int w, int h) {
         map = m;
         mapWidth = mapW;
         mapHeight = mapH;
@@ -27,14 +27,10 @@ public class Screen {
         sprites = _sprites;
         width = w;
         height = h;
-        seenDoor = door;
 
     }
 
     public int[] update(Camera camera, int[] pixels) {
-        if (camera.deleteRedkey && seenDoor){
-            sprites.remove(2);
-        }
 
         //arrays used to sort the sprites
         int[] spriteOrder = new int[sprites.size()];
@@ -94,7 +90,7 @@ public class Screen {
 
                 int color;
 
-                // floor
+                // floor (height - y - 1) * x
                 //color = floor_texture.get(64 * ty + tx);
                 color = textures.get(3).pixels[64 * ty + tx];
                 color = (color >> 1) & 8355711; // make a bit darker
@@ -102,11 +98,11 @@ public class Screen {
                     pixels[ y* (width) + x ] = color;
 
                 //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
-               /* color = textures.get(4)(64 * ty + tx);
-                color = textures.get(2).pixels[64*ty+tx];
+                /*color = textures.get(4)(64 * ty + tx);
+                color = textures.get(1).pixels[64*ty+tx];
                 color = (color >> 1) & 8355711; // make a bit darker
-                if( ((height - y - 1) * x) < (pixels.length/2))
-                    pixels[(height - y - 1) * x] = color; */
+                if( (y * (width) + x) < (pixels.length/2))
+                    pixels[(height - y - 1)*x] = color;*/
             }
         }   // END FLOOR AND CEILING CASTING
 
@@ -158,8 +154,11 @@ public class Screen {
                     side = 1;
                 }
                 //Check if ray has hit a wall
-
-                if (map[mapX][mapY] > 0)
+                if (map[mapX][mapY] == 2) {  // hit a portal wall
+                    sideDistX = (camera.xPos - mapX) * deltaDistX;
+                    sideDistY = (camera.yPos - mapY) * deltaDistY;
+                }
+                else if (map[mapX][mapY] > 0)
                     hit = true;
 
                 // if you LOOK at the door wall then change some wall on the map
@@ -255,23 +254,23 @@ public class Screen {
             int spriteScreenX = (int) ((width / 2) * (1 + transformX / transformY));
 
             //parameters for scaling and moving the sprites
-            //#define uDiv 1
-            //#define vDiv 1
-           // #define  int vMove 0.0;
-          //  int vMoveScreen = (int)(vMove / transformY);
+            int uDiv = 1;
+            int vDiv = 1;
+            double vMove = 1.0;
+            int vMoveScreen = (int)(vMove / transformY);
 
             //calculate height of the sprite on screen
-            int spriteHeight = Math.abs((int) (height / (transformY))); //using "transformY" instead of the real distance prevents fisheye
+            int spriteHeight = (Math.abs((int) (height / (transformY)))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
             //calculate lowest and highest pixel to fill in current stripe
-            int drawStartY = -spriteHeight / 2 + height / 2;
+            int drawStartY = -spriteHeight / 2 + height / 2 + vMoveScreen;
             if (drawStartY < 0)
                 drawStartY = 0;
-            int drawEndY = spriteHeight / 2 + height / 2;
+            int drawEndY = spriteHeight / 2 + height / 2 + vMoveScreen;
             if (drawEndY >= height)
                 drawEndY = height - 1;
 
             //calculate width of the sprite
-            int spriteWidth = Math.abs((int) (height / (transformY)));
+            int spriteWidth = (Math.abs((int) (height / (transformY)))) / uDiv;
             int drawStartX = -spriteWidth / 2 + spriteScreenX;
             if (drawStartX < 0)
                 drawStartX = 0;
@@ -287,11 +286,24 @@ public class Screen {
 
                     for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
                     {
-                        int d = y * 256 - height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+                        int d = (y-vMoveScreen) * 256 - height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
                         int texY = ((d * 64) / spriteHeight) / 256;
                         int color = sprites.get(spriteOrder[i]).texture.pixels[64 * texY + texX]; //get current color from the texture
-                        if ((color & 0x00FFFFFF) != 0) //paint pixel if it isn't black, black is the invisible color
-                            pixels[stripe + y *(width)] = color;
+                        if ((color & 0x00FFFFFF) != 0) { //paint pixel if it isn't black, black is the invisible color
+                            pixels[stripe + y * (width)] = color;
+
+                            // trying to get transparent sprites
+                            /*pixels[stripe + y * (width)] = pixels[stripe + y * (width)] / 4 + color / 4;
+                            int r = (color>>16)&0xFF;
+                            int g = (color>>8)&0xFF;
+                            int b = (color>>0)&0xFF;
+                            Color rgb_color = new Color(r,g,b);
+                            r = (pixels[stripe + y * (width)]>>16)&0xFF;
+                            g = (pixels[stripe + y * (width)]>>8)&0xFF;
+                            b = (pixels[stripe + y * (width)]>>0)&0xFF;
+                            Color rgb_pixel = new Color(r,g,b);
+                            pixels[stripe + y * (width)] = rgb_pixel.getRGB() / 2 + rgb_color.getRGB() / 2;*/
+                        }
                     }
                 }
             }
@@ -311,7 +323,7 @@ public class Screen {
             double first = dist[i];
             int second = order[i];
 
-            s.add(new Pair(first,second));
+            s.add(new Pair<Double, Integer>(first,second));
 
 
         };
@@ -321,7 +333,7 @@ public class Screen {
         for(i = 0; i < amount; i++) {
             for(j = 1; j < amount -i; j++) {
                 if (s.get(j-1).getValue() > s.get(j).getValue()) {
-                    Pair temp = s.get(j-1);
+                    Pair<Double, Integer> temp = s.get(j-1);
                     s.set(j-1,s.get(j));
                     s.set(j,temp);
 

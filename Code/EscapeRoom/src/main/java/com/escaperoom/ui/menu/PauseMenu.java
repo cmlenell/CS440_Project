@@ -1,22 +1,19 @@
+package com.escaperoom.ui.menu;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import components.Button;
-import components.Picture;
+import com.escaperoom.ui.component.Button;
+import com.escaperoom.ui.component.Picture;
 
+@SuppressWarnings("serial")
 public class PauseMenu extends JPanel {
 
 	// Cosmetic variables about the buttons

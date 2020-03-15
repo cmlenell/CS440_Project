@@ -1,4 +1,4 @@
-package components;
+package com.escaperoom.ui.component;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class Button extends JButton implements MouseListener {
 	
 
