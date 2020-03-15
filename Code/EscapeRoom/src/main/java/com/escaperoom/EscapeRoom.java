@@ -66,13 +66,13 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	
 	
 		//Instantiate GameEngine Objects
-		camera = new Camera(4.5, 5.5, 1, 0, 0, -.66);
-		screen = new Screen(currentLevel.getMap(), mapWidth, mapHeight, currentLevel.getTextures(), 
+		screen = new Screen(currentLevel.getMap(), mapWidth, mapHeight, currentLevel.getTextures(),
 				currentLevel.getSprites(), 
 				screenSize.width - 400,
 				screenSize.height - 400);
 		setSize(screenSize.width - 400, screenSize.height - 400);
-		
+		camera = new Camera(3.5, 5.5, 1,0, 0, -.66, screen.sprites);
+
 		//Main JFrame details
 		super.setUndecorated(true);
 		super.addKeyListener(camera);
@@ -186,7 +186,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		char letterReleased = event.getKeyChar();
 
 		// If the user wants to pause the game
-		if (letterReleased == 'p' || letterReleased == 'P') {
+		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			stop();
 
 			/*
@@ -257,7 +257,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		game.setVisible(true);
 
 		// This JOptionPane is to only show at the start of the game
-		JOptionPane.showMessageDialog(game, "USE THE ARROWS KEYS TO MOVE CHARACTER" + "\n" + "Move Foward: Up Arrow"
-				+ "\n" + "Move Backward: Down Arrow" + "\n" + "Move Camera Left/Right: Left and Right Arrows");
+		JOptionPane.showMessageDialog(game, "USE WASD TO MOVE CHARACTER" + "\n" + "Move Foward: W"
+				+ "\n" + "Move Backward: S" + "\n" + "Move Camera Left/Right: A and D");
 	}
 }

@@ -13,29 +13,36 @@ import com.escaperoom.game.GameInfo;
 public class Tutorial extends Level {
 
 	// Sprites that can be interacted with
-	private Sprites doorKey = new Sprites(1.5, 13, Textures.doorKey);
-	private Sprites redKey = new Sprites(4.5, 5.5, Textures.redKey);
-	private Sprites chest = new Sprites(7, 11.5, Textures.chest);
+	private Sprites doorKey = new Sprites(1.5, 13, Textures.doorKey, false);
+	private Sprites redKey = new Sprites(4.5, 5.5, Textures.redKey, false);
+	private Sprites chest = new Sprites(7, 11.5, Textures.chest,true);
 
 	private boolean isDoorOpen = false;
-	
-	
+
+
 	public Tutorial() {
 		int[][] map = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1 }, { 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 3, 1, 1, 1 },
-				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, { 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4 }, { 1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4 },
-				{ 1, 0, 0, 0, 0, 0, 1, 4, 0, 3, 3, 3, 3, 0, 4 }, { 1, 0, 0, 0, 0, 0, 1, 4, 0, 3, 3, 3, 3, 0, 4 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4 }, { 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4 } };
-		
+										{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+										{ 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
+										{ 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
+										{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 2, 1, 1, 1 },
+										{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
+										{ 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
+										{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
+										{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+										{ 1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4 },
+										{ 1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4 },
+										{ 1, 0, 0, 0, 0, 0, 1, 4, 0, 1, 1, 1, 1, 0, 4 },
+										{ 1, 0, 0, 0, 0, 0, 1, 4, 0, 1, 1, 1, 1, 0, 4 },
+										{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4 },
+										{ 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4 } };
+						
 		super.setMap(map);
 		loadTextures();
 		loadSprites();
 	}
-	
-	
+
+
 
 	@Override
 	protected void loadTextures() {
@@ -48,8 +55,8 @@ public class Tutorial extends Level {
 
 	@Override
 	protected void loadSprites() {
-		super.addSprite(new Sprites(4, 3.5, Textures.barrel));
-		super.addSprite(new Sprites(3.5, 4.5, Textures.barrel));
+		super.addSprite(new Sprites(4, 3.5, Textures.barrel, true));
+		super.addSprite(new Sprites(3.5, 4.5, Textures.barrel, true));
 		super.addSprite(chest);
 		super.addSprite(doorKey);
 	}
@@ -59,10 +66,10 @@ public class Tutorial extends Level {
 		double cameraX = gameInfo.getCameraPositionX();
 		double cameraY = gameInfo.getCameraPositionY();
 		KeyEvent lastKeyPressed = gameInfo.getLastKeyPressed();
-		
+
 		// If the player pressed the pickup button
 		if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
-			
+
 			// If the player is near the door key
 			if (super.isNearObject(doorKey, cameraX, cameraY) && !gameInfo.getPlayer().hasItem(doorKey)) {
 				Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
@@ -78,7 +85,7 @@ public class Tutorial extends Level {
 			} else if (super.isNearObject(chest, cameraX, cameraY) && gameInfo.getPlayer().hasItem(redKey)) {
 				//Remove item from inventory
 				gameInfo.getPlayer().removeItemFromInventory(redKey);
-				
+
 				JOptionPane.showMessageDialog(null, "The chest is open!!! \n You can leave now");
 			}
 		}
@@ -90,7 +97,7 @@ public class Tutorial extends Level {
 			super.getMap()[4][11] = 0;
 			super.getMap()[2][2] = 2;
 			isDoorOpen = true;
-			
+
 			//Remove item from inventory
 			gameInfo.getPlayer().removeItemFromInventory(doorKey);
 		}
