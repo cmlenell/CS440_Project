@@ -153,7 +153,9 @@ public class Screen {
                     mapY += stepY;
                     side = 1;
                 }
-                //Check if ray has hit a wall
+                //
+                // Check if ray has hit a wall
+
                 if (map[mapX][mapY] == 2) {  // hit a portal wall
                     sideDistX = (camera.xPos - mapX) * deltaDistX;
                     sideDistY = (camera.yPos - mapY) * deltaDistY;

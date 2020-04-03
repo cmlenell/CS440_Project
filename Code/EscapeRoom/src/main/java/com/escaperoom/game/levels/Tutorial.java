@@ -9,6 +9,7 @@ import com.escaperoom.engine.Audio;
 import com.escaperoom.engine.cosmetics.Sprites;
 import com.escaperoom.engine.cosmetics.Textures;
 import com.escaperoom.game.GameInfo;
+import com.escaperoom.ui.component.Inventory;
 
 public class Tutorial extends Level {
 
@@ -17,7 +18,9 @@ public class Tutorial extends Level {
 	private Sprites redKey = new Sprites(4.5, 5.5, Textures.redKey, false);
 	private Sprites chest = new Sprites(7, 11.5, Textures.chest,true);
 
+
 	private boolean isDoorOpen = false;
+	private boolean hasRedKey = false;
 
 
 	public Tutorial() {
@@ -77,10 +80,12 @@ public class Tutorial extends Level {
 				super.removeSprite(doorKey);
 				super.addSprite(redKey);
 
-			} else if (super.isNearObject(redKey, cameraX, cameraY) && isDoorOpen) {
+			} else if (super.isNearObject(redKey, cameraX, cameraY) && isDoorOpen && !hasRedKey) {
 				Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
 				gameInfo.getPlayer().addItemToInventory(redKey);
 				super.removeSprite(redKey);
+				hasRedKey = true;
+
 
 			} else if (super.isNearObject(chest, cameraX, cameraY) && gameInfo.getPlayer().hasItem(redKey)) {
 				//Remove item from inventory

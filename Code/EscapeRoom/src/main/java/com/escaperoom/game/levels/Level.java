@@ -17,6 +17,7 @@ public abstract class Level {
 	protected abstract void loadTextures();
 	protected abstract void loadSprites();
 	public abstract void levelLogic(GameInfo gameInfo);
+	private Sprites addToInventory;
 	
 	
 	//Setters
@@ -39,7 +40,9 @@ public abstract class Level {
 			sprites.remove(sprite);
 		}
 	}
-	
+	public void clearAllSprites(){
+		sprites.clear();
+	}
 	public void setMap(int[][] map) {
 		this.map = map;
 	}
@@ -63,5 +66,11 @@ public abstract class Level {
 	public boolean isNearObject(Sprites sprite, double currentCameraX, double currentCameraY) {
 		return (currentCameraY > (sprite.y-0.5) && currentCameraY < (sprite.y+0.5)) && 
 				(currentCameraX > (sprite.x-0.5) && currentCameraX < (sprite.x+0.5));
+	}
+	public void setAddToInventory(Sprites sprite){
+		this.addToInventory = sprite;
+	}
+	public Sprites addInventory(){
+		return addToInventory;
 	}
 }

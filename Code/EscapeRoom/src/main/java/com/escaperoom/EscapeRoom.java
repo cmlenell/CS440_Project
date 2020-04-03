@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -26,7 +27,9 @@ import com.escaperoom.engine.Screen;
 import com.escaperoom.game.GameInfo;
 import com.escaperoom.game.actors.Player;
 import com.escaperoom.game.levels.Level;
+import com.escaperoom.game.levels.LevelOne;
 import com.escaperoom.game.levels.Tutorial;
+import com.escaperoom.ui.component.Inventory;
 import com.escaperoom.ui.menu.PauseMenu;
 
 public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyListener {
@@ -39,11 +42,13 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	private Dimension screenSize;
 	
 	// Game components
-	private Level currentLevel = new Tutorial();
+	private Level currentLevel = new LevelOne();
 	private GameInfo gameInfo = new GameInfo(new Player());
 	private PauseMenu pauseMenu;
-	private static JFrame inventory; // Bottom container JFrame
+	//private static JFrame inventory; // Bottom container JFrame
 	private static JPanel bottom;
+	private Inventory inventory;
+
 
 	// Map information
 	private int mapWidth = 15;
@@ -56,6 +61,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	//Running game
 	private Thread thread;
 	private boolean running;
+
 
 	
 	public EscapeRoom() {
@@ -71,7 +77,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 				screenSize.width - 400,
 				screenSize.height - 400);
 		setSize(screenSize.width - 400, screenSize.height - 400);
-		camera = new Camera(3.5, 5.5, 1,0, 0, -.66, screen.sprites);
+		camera = new Camera(7, 7, 1,0, 0, -.66, screen.sprites);
 
 		//Main JFrame details
 		super.setUndecorated(true);
@@ -92,16 +98,8 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 
 		// This section is all for the bottom of the screen inventory
 		final Rectangle mainScreen = this.getBounds();
-		inventory = new JFrame(); // Created an new JFrame to be independent of the main game screen
-		bottom = new JPanel();
-		bottom.setLayout(new GridLayout(1, 5));
-		bottom.setBackground(Color.gray);
-		inventory.add(bottom);
-		inventory.setSize(screenSize.width - 400, 100);
-		inventory.setLocation(mainScreen.x, mainScreen.y + mainScreen.height);
-		inventory.setUndecorated(true);
-		inventory.setVisible(true);
-		inventory.getRootPane().setBorder(BorderFactory.createMatteBorder(0, 4, 4, 4, Color.yellow));
+		inventory = new Inventory(mainScreen,screenSize,currentLevel);
+		gameInfo.getPlayer().setDisplay(inventory);
 
 	}
 
@@ -137,6 +135,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		final double ns = 1000000000.0 / 30.0;// 60 times per second
 		double delta = 0;
 		requestFocus();
+
 		while (running) {
 			long now = System.nanoTime();
 			delta = delta + ((now - lastTime) / ns);
@@ -152,7 +151,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 				gameInfo.setCameraPositionY(camera.yPos);
 				gameInfo.setLastKeyPressed(camera.getLastKey());
 				currentLevel.levelLogic(gameInfo);
-
+				//inventory.update(gameInfo.getPlayer());
 				camera.update(currentLevel.getMap());
 				delta--;
 			}
