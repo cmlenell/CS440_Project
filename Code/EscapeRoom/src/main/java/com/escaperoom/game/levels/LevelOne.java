@@ -9,7 +9,8 @@ import java.awt.event.KeyEvent;
 public class LevelOne extends Level {
     private boolean gotKey;
 
-    private Sprites doorKey = new Sprites(3, 4, Textures.doorKey, false);
+    private Sprites doorKey = new Sprites(3, 4, Textures.doorKey, false,2,2,192);
+    private Sprites tv = new Sprites(1.30,9.20,Textures.tv,false,2,2,0);
 
     public LevelOne() {
         int[][] map = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -38,12 +39,15 @@ public class LevelOne extends Level {
         super.addTexture(Textures.brick);
         super.addTexture(Textures.door);
         super.addTexture(Textures.water);
+
     }
 
     @Override
     protected void loadSprites() {
         super.clearAllSprites();
         super.addSprite(doorKey);
+        super.addSprite(tv);
+
 
     }
 
@@ -55,10 +59,11 @@ public class LevelOne extends Level {
 
         // If the player pressed the pickup button
         if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
-            if (super.isNearObject(doorKey, gameInfo.getCameraPositionX(), gameInfo.getCameraPositionY()))
+            if (super.isNearObject(doorKey, gameInfo.getCameraPositionX(), gameInfo.getCameraPositionY())) {
                 gotKey = true;
-            gameInfo.getPlayer().addItemToInventory(doorKey);
-            super.removeSprite(doorKey);
+                gameInfo.getPlayer().addItemToInventory(doorKey);
+                super.removeSprite(doorKey);
+            }
         }
 
     }

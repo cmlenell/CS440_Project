@@ -32,7 +32,7 @@ public class Inventory {
         bottom.setLayout(new GridLayout(1, 5));
         jLabels = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            JLabel label = new JLabel("j");
+            JLabel label = new JLabel("");
             label.setSize(mainScreen.width / 5, 100);
             label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setBackground(Color.BLACK);

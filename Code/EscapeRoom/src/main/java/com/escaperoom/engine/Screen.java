@@ -240,8 +240,9 @@ public class Screen {
         //after sorting the sprites, do the projection and draw them
         for (int i = 0; i < sprites.size(); i++) {
             //translate sprite position to relative to camera
-            double spriteX = sprites.get(spriteOrder[i]).x - posX;
-            double spriteY = sprites.get(spriteOrder[i]).y - posY;
+            int index = spriteOrder[i];
+            double spriteX = sprites.get(index).x - posX;
+            double spriteY = sprites.get(index).y - posY;
 
             //transform sprite with the inverse camera matrix
             // [ planeX   dirX ] -1                                       [ dirY      -dirX ]
@@ -256,9 +257,9 @@ public class Screen {
             int spriteScreenX = (int) ((width / 2) * (1 + transformX / transformY));
 
             //parameters for scaling and moving the sprites
-            int uDiv = 1;
-            int vDiv = 1;
-            double vMove = 1.0;
+            int uDiv = sprites.get(index).uDiv;
+            int vDiv = sprites.get(index).vDiv;
+            double vMove = sprites.get(index).uMove;
             int vMoveScreen = (int)(vMove / transformY);
 
             //calculate height of the sprite on screen
@@ -326,8 +327,6 @@ public class Screen {
             int second = order[i];
 
             s.add(new Pair<Double, Integer>(first,second));
-
-
         };
        // Using a bubble sort to sort the vector of sprites
         int i, j;
@@ -348,9 +347,6 @@ public class Screen {
             dist[i] = s.get(amount - i - 1).getKey();
             order[i] = s.get(amount - i - 1).getValue();
         }
-
-
-
-
     }
+
 }

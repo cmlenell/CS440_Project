@@ -14,9 +14,9 @@ import com.escaperoom.ui.component.Inventory;
 public class Tutorial extends Level {
 
 	// Sprites that can be interacted with
-	private Sprites doorKey = new Sprites(1.5, 13, Textures.doorKey, false);
-	private Sprites redKey = new Sprites(4.5, 5.5, Textures.redKey, false);
-	private Sprites chest = new Sprites(7, 11.5, Textures.chest,true);
+	private Sprites doorKey = new Sprites(1.5, 13, Textures.doorKey, false,1,1,0);
+	private Sprites redKey = new Sprites(4.5, 5.5, Textures.redKey, false,1,1,0);
+	private Sprites chest = new Sprites(7, 11.5, Textures.chest,true,1,1,0);
 
 
 	private boolean isDoorOpen = false;
@@ -58,8 +58,8 @@ public class Tutorial extends Level {
 
 	@Override
 	protected void loadSprites() {
-		super.addSprite(new Sprites(4, 3.5, Textures.barrel, true));
-		super.addSprite(new Sprites(3.5, 4.5, Textures.barrel, true));
+		super.addSprite(new Sprites(4, 3.5, Textures.barrel, true,1,1,0));
+		super.addSprite(new Sprites(3.5, 4.5, Textures.barrel, true,1,1,0));
 		super.addSprite(chest);
 		super.addSprite(doorKey);
 	}

@@ -44,6 +44,7 @@ public class Textures {
     public static Textures chest = new Textures("src\\main\\resources\\chest.png",64,"chest");
     public static Textures redKey = new Textures("src\\main\\resources\\redKey.png",64,"redKey");
     public static Textures doorKey = new Textures("src\\main\\resources\\key.png",64,"doorKey");
+    public static Textures tv = new Textures("src\\main\\resources\\tv.png",64,"tv");
 
 
 
