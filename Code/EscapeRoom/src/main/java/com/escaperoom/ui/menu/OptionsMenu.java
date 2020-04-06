@@ -66,8 +66,8 @@ public class OptionsMenu extends JPanel {
 		gameLogo = new Picture("src/main/resources/logo.png", 500, 250);
 
 		// Initialize components
-		sensitivitySlider = new SliderPanel("SENSITIVITY");
-		musicSlider = new SliderPanel("MUSIC");
+		sensitivitySlider = new SliderPanel("SENSITIVITY", 45, 155, 85);
+		musicSlider = new SliderPanel("MUSIC", 0, 100, 10);
 		backButton = new Button("BACK", buttonWidth, buttonHeight);
 
 		// Initialize layout
@@ -87,6 +87,12 @@ public class OptionsMenu extends JPanel {
 	// Gets the rotation speed from the slider
 	public double getRotationSpeed() {
 		return sensitivitySlider.getValue();
+	}
+	
+	// Gets the volume from the slider
+	public double getVolume() 
+	{
+		return musicSlider.getValue();
 	}
 
 	

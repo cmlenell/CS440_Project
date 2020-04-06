@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.escaperoom.engine.BackgroundMusic;
 import com.escaperoom.engine.Camera;
 import com.escaperoom.engine.Screen;
 import com.escaperoom.game.GameInfo;
@@ -49,7 +51,9 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	private static JPanel bottom;
 	private Inventory inventory;
 
-
+	// Audio Engine
+	private BackgroundMusic bgm = new BackgroundMusic();
+	
 	// Map information
 	private int mapWidth = 15;
 	private int mapHeight = 15;
@@ -131,6 +135,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	}
 
 	public void run() {
+		bgm.playMusic(new File("src\\main\\resources\\doom.wav"));
 		long lastTime = System.nanoTime();
 		final double ns = 1000000000.0 / 30.0;// 60 times per second
 		double delta = 0;
@@ -162,9 +167,6 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	//Load a specific level and display it on the screen
 	public void loadLevel(Level currentLevel) {
 		this.currentLevel = currentLevel;
-		
-		
-		
 		//If the game is not open
 		if(!super.isVisible()) {
 			//Open the game
@@ -187,6 +189,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		// If the user wants to pause the game
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			stop();
+			bgm.pause();
 
 			/*
 			 * This ensures that we update the GUI in the Application Thread (Basically
