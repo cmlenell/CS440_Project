@@ -45,7 +45,16 @@ public class Textures {
     public static Textures redKey = new Textures("src\\main\\resources\\redKey.png",64,"redKey");
     public static Textures doorKey = new Textures("src\\main\\resources\\key.png",64,"doorKey");
     public static Textures tv = new Textures("src\\main\\resources\\tv.png",64,"tv");
-
+    public static Textures blueBox = new Textures("src\\main\\resources\\blueBox.png",64,"blueBox");
+    public static Textures redBox = new Textures("src\\main\\resources\\redBox.png",64,"redBox");
+    public static Textures greenBox = new Textures("src\\main\\resources\\greenBox.png",64,"greenBox");
+    public static Textures hitButtonSign= new Textures("src\\main\\resources\\hitButtonSign.png",64,"hitButtonSignBox");
+    public static Textures hintEqual = new Textures("src\\main\\resources\\hintEqual.png",64,"hintEqual");
+    public static Textures blockWall = new Textures("src\\main\\resources\\blockWall.png",64,"blockWall");
+    public static Textures zeroPercent = new Textures("src\\main\\resources\\zero.png",64,"zero");
+    public static Textures tenPercent = new Textures("src\\main\\resources\\tenPercent.png",64,"tenPercent");
+    public static Textures fiftyPercent = new Textures("src\\main\\resources\\fiftyPercent.png",64,"fiftyPercent");
+    public static Textures eightyPercent = new Textures("src\\main\\resources\\eightyPercent.png",64,"eightyPercent");
 
 
 }
