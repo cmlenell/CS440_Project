@@ -51,11 +51,20 @@ public class Textures {
     public static Textures hitButtonSign= new Textures("src\\main\\resources\\hitButtonSign.png",64,"hitButtonSignBox");
     public static Textures hintEqual = new Textures("src\\main\\resources\\hintEqual.png",64,"hintEqual");
     public static Textures blockWall = new Textures("src\\main\\resources\\blockWall.png",64,"blockWall");
+    public static Textures bloodWall = new Textures("src\\main\\resources\\bloodWall.png",64,"bloodWall");
     public static Textures zeroPercent = new Textures("src\\main\\resources\\zero.png",64,"zero");
     public static Textures tenPercent = new Textures("src\\main\\resources\\tenPercent.png",64,"tenPercent");
     public static Textures fiftyPercent = new Textures("src\\main\\resources\\fiftyPercent.png",64,"fiftyPercent");
     public static Textures eightyPercent = new Textures("src\\main\\resources\\eightyPercent.png",64,"eightyPercent");
-    public static Textures bloodWall = new Textures("src\\main\\resources\\bloodWall.png",64,"bloodWall");
+    public static Textures wall1 = new Textures("src\\main\\resources\\wall1.png",64,"wall1");
+    public static Textures wall2 = new Textures("src\\main\\resources\\wall2.png",64,"wall2");
+    public static Textures wall3 = new Textures("src\\main\\resources\\wall3.png",64,"wall3");
+    public static Textures wall4 = new Textures("src\\main\\resources\\wall4.png",64,"wall4");
+    public static Textures button = new Textures("src\\main\\resources\\button.png",64,"button");
+    public static Textures spring = new Textures("src\\main\\resources\\spring.png",64,"spring");
+    public static Textures summer = new Textures("src\\main\\resources\\summer.png",64,"summer");
+    public static Textures fall = new Textures("src\\main\\resources\\fall.png",64,"fall");
+    public static Textures winter = new Textures("src\\main\\resources\\winter.png",64,"winter");
 
 
 }
