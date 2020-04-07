@@ -86,7 +86,7 @@ public class OptionsMenu extends JPanel {
 
 	// Gets the rotation speed from the slider
 	public double getRotationSpeed() {
-		return sensitivitySlider.getValue();
+		return sensitivitySlider.getValue() * .001;
 	}
 	
 	// Gets the volume from the slider
