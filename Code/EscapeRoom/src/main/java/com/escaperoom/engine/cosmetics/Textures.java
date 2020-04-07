@@ -55,6 +55,7 @@ public class Textures {
     public static Textures tenPercent = new Textures("src\\main\\resources\\tenPercent.png",64,"tenPercent");
     public static Textures fiftyPercent = new Textures("src\\main\\resources\\fiftyPercent.png",64,"fiftyPercent");
     public static Textures eightyPercent = new Textures("src\\main\\resources\\eightyPercent.png",64,"eightyPercent");
+    public static Textures bloodWall = new Textures("src\\main\\resources\\bloodWall.png",64,"bloodWall");
 
 
 }
