@@ -95,8 +95,10 @@ public class LevelOne extends Level {
         KeyEvent lastKeyPressed = gameInfo.getLastKeyPressed();
         // If the player pressed the pickup button
         if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
-            bloodRoomLogic(cameraX, cameraY);
-            four_buttons(cameraX, cameraY);
+            if(roomDone)
+                bloodRoomLogic(cameraX, cameraY);
+            if(fourButtonsDone)
+                four_buttons(cameraX, cameraY);
         }
     }
 
