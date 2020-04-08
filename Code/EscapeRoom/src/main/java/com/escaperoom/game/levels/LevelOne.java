@@ -1,13 +1,14 @@
 package com.escaperoom.game.levels;
 
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.escaperoom.engine.Audio;
 import com.escaperoom.engine.cosmetics.Sprites;
 import com.escaperoom.engine.cosmetics.Textures;
 import com.escaperoom.game.GameInfo;
-
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.util.ArrayList;
+import com.escaperoom.game.levels.puzzles.SlidingPuzzle;
 
 public class LevelOne extends Level {
     private boolean gotKey;
@@ -28,6 +29,9 @@ public class LevelOne extends Level {
     private boolean doorClosed = false;
 
 
+    private SlidingPuzzle slidingPuzzle = new SlidingPuzzle(3);
+    private Sprites slidingPuzzleSprite = new Sprites(13.9, 7.4, Textures.PUZZLE_ACTIVATE, false, 5, 5 , 0);
+    private Sprites greenKey = new Sprites(0, 0, Textures.GREEN_KEY, false, 0, 0, 0);
 
 
     public LevelOne() {
@@ -69,6 +73,7 @@ public class LevelOne extends Level {
         super.addSprite(blueBox);
         super.addSprite(greenBox);
         super.addSprite(hitButtonSign);
+        super.addSprite(slidingPuzzleSprite);
     }
 
     @Override
@@ -76,7 +81,24 @@ public class LevelOne extends Level {
         double cameraX = gameInfo.getCameraPositionX();
         double cameraY = gameInfo.getCameraPositionY();
         KeyEvent lastKeyPressed = gameInfo.getLastKeyPressed();
-
+        
+        
+        //If the player is doing a puzzle
+        if(gameInfo.getActivePuzzle() != null) {
+        	//Wait for puzzle completion
+        	while(!slidingPuzzle.isPuzzleSolved()) {
+        		//Wait 500 seconds
+        		sleep(500);
+        	}
+        	
+        	//Give player green key
+        	gameInfo.getPlayer().addItemToInventory(greenKey);
+        	
+        	//End the method
+        	return;
+        	
+        }
+        
 
         // If the player pressed the pickup button
         if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
@@ -106,11 +128,18 @@ public class LevelOne extends Level {
                 System.out.println(buttonThree);
                 bloodGlassesLogic();
             }
+            
+            //If the player activated the sliding puzzle
+            if(!slidingPuzzle.isPuzzleSolved() && super.isNearObject(slidingPuzzleSprite, cameraX, cameraY)) {
+            	gameInfo.setActivePuzzle(slidingPuzzle);
+            	
+            }
 
         }
 
     }
-    // Method to see what textures to change the buttons based on player button presses
+
+	// Method to see what textures to change the buttons based on player button presses
     private void bloodGlassesLogic(){
         int indexOfGlassOne = super.getSprites().indexOf(glassOne);
         int indexOfGlassTwo = super.getSprites().indexOf(glassTwo);
@@ -179,4 +208,14 @@ public class LevelOne extends Level {
         }
         return false;
     }
+    
+    private void sleep(long time) {
+  		try {
+  			Thread.sleep(time);
+  		} catch (InterruptedException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		}
+  		
+  	}
 }

@@ -2,6 +2,8 @@ package com.escaperoom.game;
 
 import java.awt.event.KeyEvent;
 
+import javax.swing.JPanel;
+
 import com.escaperoom.game.actors.Player;
 
 public class GameInfo {
@@ -10,6 +12,7 @@ public class GameInfo {
 	private double cameraPositionX;
 	private double cameraPositionY;
 	private KeyEvent lastKeyPressed;
+	private JPanel activePuzzle = null;
 
 	public GameInfo(Player player) {
 		this.player = player;
@@ -27,6 +30,10 @@ public class GameInfo {
 	public void setLastKeyPressed(KeyEvent lastKeyPressed) {
 		this.lastKeyPressed = lastKeyPressed;
 	}
+	
+	public void setActivePuzzle(JPanel activePuzzle) {
+		this.activePuzzle = activePuzzle;
+	}
 
 	// Getters
 	public Player getPlayer() {
@@ -43,6 +50,10 @@ public class GameInfo {
 	
 	public KeyEvent getLastKeyPressed() {
 		return lastKeyPressed;
+	}
+	
+	public JPanel getActivePuzzle() {
+		return activePuzzle;
 	}
 
 }

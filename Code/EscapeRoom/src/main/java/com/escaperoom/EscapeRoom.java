@@ -1,10 +1,8 @@
 package com.escaperoom;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,9 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.IOException;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +24,6 @@ import com.escaperoom.game.GameInfo;
 import com.escaperoom.game.actors.Player;
 import com.escaperoom.game.levels.Level;
 import com.escaperoom.game.levels.LevelOne;
-import com.escaperoom.game.levels.Tutorial;
 import com.escaperoom.ui.component.Inventory;
 import com.escaperoom.ui.menu.PauseMenu;
 
@@ -154,11 +149,53 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 				//inventory.update(gameInfo.getPlayer());
 				camera.update(currentLevel.getMap());
 				delta--;
+
+				
+				//If the player activated a puzzle (no longer showing the game screen)
+				if(gameInfo.getActivePuzzle() != null) {
+					JPanel puzzle = gameInfo.getActivePuzzle();
+					
+					//Show Puzzle
+					showPuzzleScreen(puzzle);
+					
+					//Run the level logic to check for puzzle completion
+					currentLevel.levelLogic(gameInfo);
+					
+					//Remove Puzzle
+					gameInfo.setActivePuzzle(null);
+					hidePuzzleScreen(puzzle);
+					
+					render();
+					continue;
+					
+				}
+				
+				
 			}
+
 			render();// displays to the screen unrestricted time
 		}
 	}
 	
+	private void hidePuzzleScreen(JPanel activePuzzle) {
+		SwingUtilities.invokeLater(() -> {
+			requestFocus();
+			super.remove(activePuzzle);
+			super.revalidate();
+			super.repaint();
+		});		
+	}
+
+	private void showPuzzleScreen(JPanel activePuzzle) {
+		SwingUtilities.invokeLater(() -> {
+			requestFocus();
+			super.add(activePuzzle);
+			super.revalidate();
+			super.repaint();
+		});
+		
+	}
+
 	//Load a specific level and display it on the screen
 	public void loadLevel(Level currentLevel) {
 		this.currentLevel = currentLevel;
