@@ -59,7 +59,19 @@ public class Textures {
     public static final Textures PUZZLE_ACTIVATE = new Textures("src\\main\\resources\\puzzleActivate.jpg", 64,
 			"puzzleActivate");
 	public static final Textures GREEN_KEY = new Textures("src\\main\\resources\\greenKey.png", 64, "greenKey");
-
-
+	public static final Textures Lv1Wall = new Textures("src\\main\\resources\\levelOneWall.png", 64, "lvl1wall");
+	public static final Textures Lv1Floor = new Textures("src\\main\\resources\\levelOneFloor.png", 64, "lvl1floor");
+	
+	public static final Textures topLeftHint = new Textures("src\\main\\resources\\tlhint.png", 64, "lvl1floor");
+	public static final Textures BIN_NUM = new Textures("src\\main\\resources\\bin.png", 64, "binnum");
+	public static final Textures DEC_NUM = new Textures("src\\main\\resources\\dec.png", 64, "decnum");
+	public static final Textures HEX_NUM = new Textures("src\\main\\resources\\hex.png", 64, "hexnum");
+	public static final Textures prim1 = new Textures("src\\main\\resources\\prim1.png", 64, "prim1");
+	public static final Textures prim2 = new Textures("src\\main\\resources\\prim2.png", 64, "prim2");
+	public static final Textures scnd = new Textures("src\\main\\resources\\secondary.png", 64, "scnd");
+	public static final Textures cat = new Textures("src\\main\\resources\\cat.png", 64, "cat");
+	public static final Textures mouse = new Textures("src\\main\\resources\\mouse.png", 64, "mouse");
+	public static final Textures bird = new Textures("src\\main\\resources\\bird.png", 64, "bird");
+	
 }
 

@@ -23,6 +23,10 @@ public class LevelOne extends Level {
 	private Sprites glassOne = new Sprites(5.90, 11, Textures.zeroPercent, false, 2, 2, 0);
 	private Sprites glassTwo = new Sprites(5.90, 12, Textures.zeroPercent, false, 2, 2, 0);
 	private Sprites glassThree = new Sprites(5.90, 13, Textures.zeroPercent, false, 2, 2, 0);
+	
+	//top left room stuff
+	private Sprites binNum = new Sprites(3, 4, Textures.doorKey, false, 2, 2, 192);
+	
 	private long lastButtonPressTime;
 	private int buttonOne, buttonTwo, buttonThree = 0;
 	private boolean doorClosed = false;
@@ -33,14 +37,22 @@ public class LevelOne extends Level {
 	private Sprites greenKey = new Sprites(0, 0, Textures.GREEN_KEY, false, 0, 0, 0);
 
 	public LevelOne() {
-		int[][] map = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, { 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4 }, { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, { 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4 } };
+		int[][] map = { 
+				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				{ 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
+				{ 1, 0, 0, 0, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
+				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, 
+				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4 }, 
+				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
+				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, 
+				{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4 } };
 		super.setMap(map);
 		loadTextures();
 		loadSprites();
@@ -48,10 +60,10 @@ public class LevelOne extends Level {
 
 	@Override
 	protected void loadTextures() {
-		super.addTexture(Textures.wall);
+		super.addTexture(Textures.Lv1Wall);
 		super.addTexture(Textures.brick);
 		super.addTexture(Textures.door);
-		super.addTexture(Textures.water);
+		super.addTexture(Textures.Lv1Floor);
 		super.addTexture(Textures.bloodWall);
 	}
 
@@ -149,7 +161,7 @@ public class LevelOne extends Level {
 			changeWallsTrapped();
 		}
 
-		// Making sure with the time that the player does not span the interact button
+		// Making sure with the time that the player does not spam the interact button
 		if (System.currentTimeMillis() - lastButtonPressTime > 5000 && doorClosed && nearAnyButton(cameraX, cameraY)) {
 			lastButtonPressTime = System.currentTimeMillis();
 			Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
