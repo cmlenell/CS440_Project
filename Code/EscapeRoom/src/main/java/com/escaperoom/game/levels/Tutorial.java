@@ -9,6 +9,7 @@ import com.escaperoom.engine.Audio;
 import com.escaperoom.engine.cosmetics.Sprites;
 import com.escaperoom.engine.cosmetics.Textures;
 import com.escaperoom.game.GameInfo;
+import com.escaperoom.ui.component.Inventory;
 
 public class Tutorial extends Level {
 

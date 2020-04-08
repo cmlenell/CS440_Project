@@ -12,11 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-<<<<<<< HEAD
-=======
 import java.io.File;
-import java.io.IOException;
->>>>>>> 92b4a08241057d593bf05e2c8e17aff0dec706bd
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -159,29 +155,28 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 				camera.update(currentLevel.getMap());
 				delta--;
 
-				
-				//If the player activated a puzzle (no longer showing the game screen)
-				if(gameInfo.getActivePuzzle() != null) {
+				// If the player activated a puzzle (no longer showing the game screen)
+				if (gameInfo.getActivePuzzle() != null) {
 					JPanel puzzle = gameInfo.getActivePuzzle();
-					
-					//Show Puzzle
+
+					// Show Puzzle
 					showPuzzleScreen(puzzle);
-					
-					//Run the level logic to check for puzzle completion
+
+					// Run the level logic to check for puzzle completion
 					currentLevel.levelLogic(gameInfo);
-					
-					//Remove Puzzle
+
+					// Remove Puzzle
 					gameInfo.setActivePuzzle(null);
 					hidePuzzleScreen(puzzle);
-					
+
 					render();
 					continue;
-					
+
 				}
 				
 				
+				
 			}
-
 			render();// displays to the screen unrestricted time
 		}
 	}
@@ -204,7 +199,8 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		});
 		
 	}
-
+	
+	
 	//Load a specific level and display it on the screen
 	public void loadLevel(Level currentLevel) {
 		this.currentLevel = currentLevel;
