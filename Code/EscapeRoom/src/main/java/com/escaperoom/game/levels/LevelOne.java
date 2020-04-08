@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.escaperoom.engine.Audio;
+import com.escaperoom.engine.Camera;
 import com.escaperoom.engine.cosmetics.Sprites;
 import com.escaperoom.engine.cosmetics.Textures;
 import com.escaperoom.game.GameInfo;
@@ -13,7 +14,7 @@ import com.escaperoom.game.levels.puzzles.SlidingPuzzle;
 public class LevelOne extends Level {
 	private boolean gotKey;
 
-	private Sprites doorKey = new Sprites(3, 4, Textures.doorKey, false, 2, 2, 192);
+	private Sprites doorKey = new Sprites(1.5, 5, Textures.doorKey, false, 2, 2, 192);
 	private Sprites tv = new Sprites(1.30, 9.20, Textures.tv, false, 2, 2, 192);
 	private Sprites blueBox = new Sprites(2, 13.99, Textures.blueBox, false, 5, 5, 0);
 	private Sprites redBox = new Sprites(3, 13.99, Textures.redBox, false, 5, 5, 0);
@@ -25,12 +26,22 @@ public class LevelOne extends Level {
 	private Sprites glassThree = new Sprites(5.90, 13, Textures.zeroPercent, false, 2, 2, 0);
 	
 	//top left room stuff
-	private Sprites binNum = new Sprites(3, 4, Textures.doorKey, false, 2, 2, 192);
+	private Sprites binNum = new Sprites(7.5, 1.5, Textures.BIN_NUM, false, 5, 5, 32);
+	private Sprites decNum = new Sprites(7.5, 2.5, Textures.DEC_NUM, false, 5, 5, 32);
+	private Sprites hexNum = new Sprites(7.5, 3.5, Textures.HEX_NUM, false, 5, 5, 32);
+	private Sprites prim1 = new Sprites(4.5, 3.5, Textures.prim1, false, 5, 5, 32);
+	private Sprites prim2 = new Sprites(4.5, 2.5, Textures.prim2, false, 5, 5, 32);
+	private Sprites scnd = new Sprites(4.5, 1.5, Textures.scnd, false, 5, 5, 32);
+	private Sprites cat = new Sprites(2.5, 1.5, Textures.cat, false, 5, 5, 32);
+	private Sprites mouse = new Sprites(2.5, 3.5, Textures.mouse, false, 5, 5, 32);
+	private Sprites bird = new Sprites(2.5, 2.5, Textures.bird, false, 5, 5, 32);
+	
 	
 	private long lastButtonPressTime;
 	private int buttonOne, buttonTwo, buttonThree = 0;
 	private boolean doorClosed = false;
 	private boolean roomDone = false;
+	private boolean TLbool = false;
 
 	private SlidingPuzzle slidingPuzzle = new SlidingPuzzle(3);
 	private Sprites slidingPuzzleSprite = new Sprites(11.6, 1.10, Textures.PUZZLE_ACTIVATE, false, 5, 5, 0);
@@ -41,11 +52,11 @@ public class LevelOne extends Level {
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 				{ 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
 				{ 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 }, 
 				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 0, 0, 0, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
 				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
 				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, 
 				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
@@ -65,6 +76,7 @@ public class LevelOne extends Level {
 		super.addTexture(Textures.door);
 		super.addTexture(Textures.Lv1Floor);
 		super.addTexture(Textures.bloodWall);
+		super.addTexture(Textures.topLeftHint);
 	}
 
 	@Override
@@ -77,6 +89,15 @@ public class LevelOne extends Level {
 		super.addSprite(greenBox);
 		super.addSprite(hitButtonSign);
 		super.addSprite(slidingPuzzleSprite);
+		super.addSprite(binNum);
+		super.addSprite(decNum);
+		super.addSprite(hexNum);
+		super.addSprite(prim1);
+		super.addSprite(prim2);
+		super.addSprite(scnd);
+		super.addSprite(cat);
+		super.addSprite(mouse);
+		super.addSprite(bird);
 	}
 
 	@Override
@@ -138,8 +159,34 @@ public class LevelOne extends Level {
 			// If the player activated the sliding puzzle
 			if (!slidingPuzzle.isPuzzleSolved() && super.isNearObject(slidingPuzzleSprite, cameraX, cameraY)) {
 				gameInfo.setActivePuzzle(slidingPuzzle);
-
 			}
+			
+			if((int)cameraX == 7 && (int)cameraY == 5 && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				super.getMap()[7][4] = 0;
+				super.getMap()[7][6] = 1;
+				TLbool = true;
+			}
+			
+			if(super.isNearObject(hexNum, cameraX, cameraY) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				super.getMap()[6][2] = 0;
+			}
+			
+			if(super.isNearObject(scnd, cameraX, cameraY) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				super.getMap()[3][2] = 0;
+			}
+
+			if(super.isNearObject(bird, cameraX, cameraY) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				super.getMap()[1][4] = 0;
+				super.getMap()[1][6] = 0;
+				super.getMap()[7][4] = 0;
+				super.getMap()[7][6] = 0;
+				TLbool = false;
+			}
+			
 		}
 
 	}

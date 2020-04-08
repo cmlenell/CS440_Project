@@ -173,9 +173,6 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 					continue;
 
 				}
-				
-				
-				
 			}
 			render();// displays to the screen unrestricted time
 		}
