@@ -47,7 +47,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	private Inventory inventory;
 
 	// Audio Engine
-	private BackgroundMusic bgm = new BackgroundMusic();
+	BackgroundMusic bgm = new BackgroundMusic();
 	
 	// Map information
 	private int mapWidth = 15;
@@ -260,6 +260,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		} else if (src.equals(pauseMenu.getResumeButton())) {
 			SwingUtilities.invokeLater(() -> {
 				camera.setRotationSpeed(pauseMenu.getOptionsMenu().getRotationSpeed());
+				bgm.setGain(pauseMenu.getOptionsMenu().getVolume());
 				requestFocus();
 				super.remove(pauseMenu);
 				super.revalidate();

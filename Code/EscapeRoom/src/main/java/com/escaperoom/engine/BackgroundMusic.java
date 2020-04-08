@@ -24,7 +24,7 @@ public class BackgroundMusic
 			c.open(music);
 			
 			//volume
-			FloatControl gainer = (FloatControl)c.getControl(FloatControl.Type.MASTER_GAIN);
+			FloatControl gainer = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
 			float decibal = (float) (Math.log(gain) / Math.log(10) * 20);
 			gainer.setValue(decibal);
 			
