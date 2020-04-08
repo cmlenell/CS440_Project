@@ -18,12 +18,12 @@ public class SliderPanel extends JPanel {
 
 	private GridLayout gridLayout;
 
-	public SliderPanel(String sliderName) {
+	public SliderPanel(String sliderName, int min, int max, int def) {
 		sliderLabel = new JLabel(sliderName);
 		sliderLabel.setFont(new Font("Arial", Font.BOLD, 25));
 		sliderLabel.setForeground(Color.white);
 		
-		slider = new JSlider(JSlider.HORIZONTAL, 45, 155, 85); //(slider direction, min value, max value, default value)
+		slider = new JSlider(JSlider.HORIZONTAL, min, max, def); //(slider direction, min value, max value, default value)
 		slider.setMajorTickSpacing(5); // Increment and decrement the slider by 1
 		slider.setBackground(Color.black);
 		
@@ -49,6 +49,7 @@ public class SliderPanel extends JPanel {
 	}
 
 	public double getValue() {
-		return slider.getValue() * .001;
+		return slider.getValue();
 	}
+	
 }
