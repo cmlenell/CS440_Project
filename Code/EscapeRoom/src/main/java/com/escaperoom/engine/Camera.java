@@ -139,6 +139,10 @@ public class Camera implements KeyListener {
             return lastKey;
         }
         
+        public void setLastKeyPressed(KeyEvent key) {
+			lastKey = key;	
+		}
+        
         //Sets the rotation speed to a value chosen by the user in the pause menu
         public void setRotationSpeed(double rotationSpeed) {
         	this.rotationSpeed = rotationSpeed;

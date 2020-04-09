@@ -157,6 +157,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 
 				// If the player activated a puzzle (no longer showing the game screen)
 				if (gameInfo.getActivePuzzle() != null) {
+					camera.setLastKeyPressed(null); //Without this, the last key pressed would still be 'E' and the puzzle would reactivate if the user quit it
 					JPanel puzzle = gameInfo.getActivePuzzle();
 
 					// Show Puzzle
@@ -169,6 +170,7 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 					gameInfo.setActivePuzzle(null);
 					hidePuzzleScreen(puzzle);
 
+					screen.update(camera, pixels);
 					render();
 					continue;
 

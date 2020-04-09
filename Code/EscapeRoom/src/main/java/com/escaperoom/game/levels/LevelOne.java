@@ -43,7 +43,8 @@ public class LevelOne extends Level {
 	private boolean roomDone = false;
 	private boolean TLbool = false;
 
-	private SlidingPuzzle slidingPuzzle = new SlidingPuzzle(3);
+	int slidingPuzzleSize = 2;
+	private SlidingPuzzle slidingPuzzle = new SlidingPuzzle(slidingPuzzleSize);
 	private Sprites slidingPuzzleSprite = new Sprites(11.6, 1.10, Textures.PUZZLE_ACTIVATE, false, 5, 5, 0);
 	private Sprites greenKey = new Sprites(0, 0, Textures.GREEN_KEY, false, 0, 0, 0);
 
@@ -109,13 +110,16 @@ public class LevelOne extends Level {
 		// If the player is doing a puzzle
 		if (gameInfo.getActivePuzzle() != null) {
 			// Wait for puzzle completion
-			while (!slidingPuzzle.isPuzzleSolved()) {
+			while (!slidingPuzzle.isPuzzleSolved() && !slidingPuzzle.isQuitting()) {
 				// Wait 500 seconds
 				sleep(500);
 			}
 
-			// Give player green key
-			gameInfo.getPlayer().addItemToInventory(greenKey);
+			//If the user solved the puzzle
+			if(slidingPuzzle.isPuzzleSolved()) {
+				// Give player green key
+				gameInfo.getPlayer().addItemToInventory(greenKey);
+			}
 
 			// End the method
 			return;
@@ -158,9 +162,16 @@ public class LevelOne extends Level {
 			
 			// If the player activated the sliding puzzle
 			if (!slidingPuzzle.isPuzzleSolved() && super.isNearObject(slidingPuzzleSprite, cameraX, cameraY)) {
+				// If the user has quit before
+				if (slidingPuzzle.isQuitting()) {
+					// Genrate a new puzzle
+					slidingPuzzle = new SlidingPuzzle(slidingPuzzleSize);
+				}
+
 				gameInfo.setActivePuzzle(slidingPuzzle);
+
 			}
-			
+
 			if((int)cameraX == 7 && (int)cameraY == 5 && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
 			{
 				super.getMap()[7][4] = 0;
