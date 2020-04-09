@@ -145,6 +145,19 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 
 				// handles all of the logic restricted time
 				screen.update(camera, pixels);
+				
+				if (gameInfo.change_pos) 
+				{
+					//System.out.println("Changed Position");
+					gameInfo.change_pos = false;
+					camera.xPos = gameInfo.getCameraPositionX();
+					camera.yPos = gameInfo.getCameraPositionY();
+				}
+				else 
+				{
+					gameInfo.setCameraPositionX(camera.xPos);
+					gameInfo.setCameraPositionY(camera.yPos);
+				}
 
 				
 				gameInfo.setCameraPositionX(camera.xPos);

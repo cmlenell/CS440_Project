@@ -13,6 +13,7 @@ public class GameInfo {
 	private double cameraPositionY;
 	private KeyEvent lastKeyPressed;
 	private JPanel activePuzzle = null;
+	public boolean change_pos;
 
 	public GameInfo(Player player) {
 		this.player = player;

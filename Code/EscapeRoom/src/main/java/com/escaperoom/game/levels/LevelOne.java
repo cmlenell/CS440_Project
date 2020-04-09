@@ -183,10 +183,28 @@ public class LevelOne extends Level {
 			{
 				super.getMap()[6][2] = 0;
 			}
+			else if( (super.isNearObject(binNum, cameraX, cameraY) || super.isNearObject(decNum, cameraX, cameraY) ) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				TLbool = false;
+				super.getMap()[7][4] = 6;
+				super.getMap()[7][6] = 0;
+				gameInfo.change_pos = true;
+				gameInfo.setCameraPositionX(7);
+				gameInfo.setCameraPositionY(13);
+			}
 			
 			if(super.isNearObject(scnd, cameraX, cameraY) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
 			{
 				super.getMap()[3][2] = 0;
+			}
+			else if( (super.isNearObject(prim1, cameraX, cameraY) || super.isNearObject(prim2, cameraX, cameraY) ) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				TLbool = false;
+				super.getMap()[7][4] = 6;
+				super.getMap()[7][6] = 0;
+				gameInfo.change_pos = true;
+				gameInfo.setCameraPositionX(7);
+				gameInfo.setCameraPositionY(13);
 			}
 
 			if(super.isNearObject(bird, cameraX, cameraY) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
@@ -195,7 +213,19 @@ public class LevelOne extends Level {
 				super.getMap()[1][6] = 0;
 				super.getMap()[7][4] = 0;
 				super.getMap()[7][6] = 0;
+				super.removeSprite(binNum); super.removeSprite(decNum); super.removeSprite(hexNum);
+				super.removeSprite(scnd); super.removeSprite(prim1); super.removeSprite(prim2);
+				super.removeSprite(mouse); super.removeSprite(cat); super.removeSprite(bird);
 				TLbool = false;
+			}
+			else if( (super.isNearObject(cat, cameraX, cameraY) || super.isNearObject(mouse, cameraX, cameraY) ) && TLbool && lastKeyPressed.getKeyCode() == KeyEvent.VK_E)
+			{
+				TLbool = false;
+				super.getMap()[7][4] = 6;
+				super.getMap()[7][6] = 0;
+				gameInfo.change_pos = true;
+				gameInfo.setCameraPositionX(7);
+				gameInfo.setCameraPositionY(13);
 			}
 			
 		}
