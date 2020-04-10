@@ -56,12 +56,10 @@ public class Textures {
     public static Textures fiftyPercent = new Textures("src\\main\\resources\\fiftyPercent.png",64,"fiftyPercent");
     public static Textures eightyPercent = new Textures("src\\main\\resources\\eightyPercent.png",64,"eightyPercent");
     public static Textures bloodWall = new Textures("src\\main\\resources\\bloodWall.png",64,"bloodWall");
-    public static final Textures PUZZLE_ACTIVATE = new Textures("src\\main\\resources\\puzzleActivate.jpg", 64,
-			"puzzleActivate");
+    public static final Textures PUZZLE_ACTIVATE = new Textures("src\\main\\resources\\puzzleActivate.jpg", 64, "puzzleActivate");
 	public static final Textures GREEN_KEY = new Textures("src\\main\\resources\\greenKey.png", 64, "greenKey");
 	public static final Textures Lv1Wall = new Textures("src\\main\\resources\\levelOneWall.png", 64, "lvl1wall");
 	public static final Textures Lv1Floor = new Textures("src\\main\\resources\\levelOneFloor.png", 64, "lvl1floor");
-	
 	public static final Textures topLeftHint = new Textures("src\\main\\resources\\tlhint.png", 64, "lvl1floor");
 	public static final Textures BIN_NUM = new Textures("src\\main\\resources\\bin.png", 64, "binnum");
 	public static final Textures DEC_NUM = new Textures("src\\main\\resources\\dec.png", 64, "decnum");
@@ -72,6 +70,14 @@ public class Textures {
 	public static final Textures cat = new Textures("src\\main\\resources\\cat.png", 64, "cat");
 	public static final Textures mouse = new Textures("src\\main\\resources\\mouse.png", 64, "mouse");
 	public static final Textures bird = new Textures("src\\main\\resources\\bird.png", 64, "bird");
-	
+    public static Textures button = new Textures("src\\main\\resources\\button.png",64,"button");
+    public static Textures spring = new Textures("src\\main\\resources\\spring.png",64,"spring");
+    public static Textures summer = new Textures("src\\main\\resources\\summer.png",64,"summer");
+    public static Textures fall = new Textures("src\\main\\resources\\fall.png",64,"fall");
+    public static Textures winter = new Textures("src\\main\\resources\\winter.png",64,"winter");
+    public static Textures springWall = new Textures("src\\main\\resources\\springWall.png",64,"springWall");
+    public static Textures summerWall = new Textures("src\\main\\resources\\summerWall.png",64,"summerWall");
+    public static Textures fallWall = new Textures("src\\main\\resources\\fallWall.png",64,"fallWall");
+    public static Textures winterWall = new Textures("src\\main\\resources\\winterWall.png",64,"winterWall");
 }
 
