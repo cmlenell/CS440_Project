@@ -45,7 +45,7 @@ public class LevelOne extends Level {
 	private Sprites summer = new Sprites(9.05, 10.5, Textures.summer, false,2,2,0);
 	private Sprites fall = new Sprites(9.05, 11, Textures.fall, false,2,2,0);
 	private Sprites winter = new Sprites(9.05, 11.5, Textures.winter, false,2,2,0);
-
+	private Sprites redKey = new Sprites(11.5,11.5,Textures.redKey,false,2,2,0);
 	
 	private long lastButtonPressTime;
 	private int buttonOne, buttonTwo, buttonThree = 0;
@@ -54,6 +54,7 @@ public class LevelOne extends Level {
 	private boolean TLbool = false;
 	private boolean fourButtonsDone = false;
 	private boolean first = false, second = false, third = false, fourth = false;
+	private boolean hasRedKey = false;
 
 
 	int slidingPuzzleSize = 2;
@@ -185,8 +186,16 @@ public class LevelOne extends Level {
 			// If the player pressed the pickup button
 			if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
 				bloodRoomLogic(cameraX, cameraY);
+
 				if (!fourButtonsDone) {
 					four_buttons(cameraX, cameraY);
+				}
+				else if (!hasRedKey){
+					if (super.isNearObject(redKey,cameraX, cameraY)) {
+						gameInfo.getPlayer().addItemToInventory(redKey);
+						super.removeSprite(redKey);
+						hasRedKey = true;
+					}
 				}
 
 			}
@@ -406,6 +415,7 @@ public class LevelOne extends Level {
 			Audio.playSound(new File("src\\main\\resources\\deeplaugh.wav"));
 			System.out.println("All buttons pressed");
 			fourButtonsDone = true;
+			super.addSprite(redKey);
 
 		}
 
