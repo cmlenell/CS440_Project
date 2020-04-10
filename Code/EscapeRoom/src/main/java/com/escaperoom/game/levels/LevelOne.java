@@ -35,13 +35,26 @@ public class LevelOne extends Level {
 	private Sprites cat = new Sprites(2.5, 1.5, Textures.cat, false, 5, 5, 32);
 	private Sprites mouse = new Sprites(2.5, 3.5, Textures.mouse, false, 5, 5, 32);
 	private Sprites bird = new Sprites(2.5, 2.5, Textures.bird, false, 5, 5, 32);
-	
+
+	//bottom right
+	private Sprites button1 = new Sprites(10.7,13.99,Textures.button, false,2,2,0);
+	private Sprites button2 = new Sprites(13.99, 10.7, Textures.button, false,2,2,0);
+	private Sprites button3 = new Sprites(13.99, 12.7, Textures.button, false,2,2,0);
+	private Sprites button4 = new Sprites(12.7, 13.99, Textures.button, false,2,2,0);
+	private Sprites spring = new Sprites(9.05, 10.05, Textures.spring, false,2,2,0);
+	private Sprites summer = new Sprites(9.05, 10.5, Textures.summer, false,2,2,0);
+	private Sprites fall = new Sprites(9.05, 11, Textures.fall, false,2,2,0);
+	private Sprites winter = new Sprites(9.05, 11.5, Textures.winter, false,2,2,0);
+
 	
 	private long lastButtonPressTime;
 	private int buttonOne, buttonTwo, buttonThree = 0;
 	private boolean doorClosed = false;
 	private boolean roomDone = false;
 	private boolean TLbool = false;
+	private boolean fourButtonsDone = false;
+	private boolean first = false, second = false, third = false, fourth = false;
+
 
 	int slidingPuzzleSize = 2;
 	private SlidingPuzzle slidingPuzzle = new SlidingPuzzle(slidingPuzzleSize);
@@ -60,11 +73,11 @@ public class LevelOne extends Level {
 				{ 1, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
 				{ 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
 				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, 
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
+				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 7 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4 }, 
-				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 },
+				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 10 },
 				{ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4 } };
+				{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 8, 4, 9, 4, 4 } };
 		super.setMap(map);
 		loadTextures();
 		loadSprites();
@@ -78,6 +91,11 @@ public class LevelOne extends Level {
 		super.addTexture(Textures.Lv1Floor);
 		super.addTexture(Textures.bloodWall);
 		super.addTexture(Textures.topLeftHint);
+		// bottom right
+		super.addTexture(Textures.springWall);
+		super.addTexture(Textures.summerWall);
+		super.addTexture(Textures.fallWall);
+		super.addTexture(Textures.winterWall);
 	}
 
 	@Override
@@ -99,6 +117,15 @@ public class LevelOne extends Level {
 		super.addSprite(cat);
 		super.addSprite(mouse);
 		super.addSprite(bird);
+		//bottom right
+		super.addSprite(button1);
+		super.addSprite(button2);
+		super.addSprite(button3);
+		super.addSprite(button4);
+		super.addSprite(spring);
+		super.addSprite(summer);
+		super.addSprite(fall);
+		super.addSprite(winter);
 	}
 
 	@Override
@@ -158,6 +185,10 @@ public class LevelOne extends Level {
 			// If the player pressed the pickup button
 			if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
 				bloodRoomLogic(cameraX, cameraY);
+				if (!fourButtonsDone) {
+					four_buttons(cameraX, cameraY);
+				}
+
 			}
 			
 			// If the player activated the sliding puzzle
@@ -340,6 +371,45 @@ public class LevelOne extends Level {
 		}
 	}
 	// End of bloodRoom Methods
+
+	private void four_buttons(double cameraX, double cameraY) {
+
+		if(super.isNearObject(button1, cameraX, cameraY)) {
+			if (!first) {
+				Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
+				first = true;
+				System.out.println("pressed first button");
+			}
+		}
+		else if(super.isNearObject(button2, cameraX, cameraY)) {
+			if (first && !second && !third && !fourth) {
+				Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
+				second = true;
+				System.out.println("pressed second button");
+			}
+		}
+		else if(super.isNearObject(button3, cameraX, cameraY)) {
+			if (first && second && !third && !fourth) {
+				Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
+				third = true;
+				System.out.println("pressed third button");
+			}
+		}
+		else if(super.isNearObject(button4, cameraX, cameraY)) {
+			if (first && second && third && !fourth) {
+				Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
+				fourth = true;
+				System.out.println("pressed fourth button");
+			}
+		}
+		if(first && second && third && fourth && !fourButtonsDone) { // all buttons were pressed in the correct order
+			Audio.playSound(new File("src\\main\\resources\\deeplaugh.wav"));
+			System.out.println("All buttons pressed");
+			fourButtonsDone = true;
+
+		}
+
+	}
 
 	private void sleep(long time) {
 		try {
