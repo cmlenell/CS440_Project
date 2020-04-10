@@ -238,7 +238,7 @@ public class Screen {
         sortSprites(spriteOrder, spriteDistance, sprites.size());
 
         //after sorting the sprites, do the projection and draw them
-        for (int i = 0; i < sprites.size(); i++) {
+        for (int i = sprites.size()-1; i >-1; i--) {
             //translate sprite position to relative to camera
             int index = spriteOrder[i];
             double spriteX = sprites.get(index).x - posX;

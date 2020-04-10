@@ -11,14 +11,17 @@ import com.escaperoom.engine.cosmetics.Textures;
 import com.escaperoom.game.GameInfo;
 import com.escaperoom.game.levels.puzzles.SlidingPuzzle;
 
+import javax.swing.*;
+
 public class LevelOne extends Level {
 	private boolean gotKey;
-
+	// bloodRoom stuff
+    private Sprites blueKey = new Sprites(0,0,Textures.blueKey,false,1,1,0);
 	private Sprites doorKey = new Sprites(1.5, 5, Textures.doorKey, false, 2, 2, 192);
 	private Sprites tv = new Sprites(1.30, 9.20, Textures.tv, false, 2, 2, 192);
-	private Sprites blueBox = new Sprites(2, 13.99, Textures.blueBox, false, 5, 5, 0);
-	private Sprites redBox = new Sprites(3, 13.99, Textures.redBox, false, 5, 5, 0);
-	private Sprites greenBox = new Sprites(4, 13.99, Textures.greenBox, false, 5, 5, 0);
+	private Sprites blueBox = new Sprites(2, 13.99, Textures.bloodButton, false, 5, 5, 0);
+	private Sprites redBox = new Sprites(3, 13.99, Textures.bloodButton, false, 5, 5, 0);
+	private Sprites greenBox = new Sprites(4, 13.99, Textures.bloodButton, false, 5, 5, 0);
 	private Sprites hintEqual = new Sprites(2, 9.20, Textures.hintEqual, false, 4, 4, 0);
 	private Sprites hitButtonSign = new Sprites(5, 13.90, Textures.hitButtonSign, false, 4, 4, 0);
 	private Sprites glassOne = new Sprites(5.90, 11, Textures.zeroPercent, false, 2, 2, 0);
@@ -50,12 +53,14 @@ public class LevelOne extends Level {
 	private long lastButtonPressTime;
 	private int buttonOne, buttonTwo, buttonThree = 0;
 	private boolean doorClosed = false;
-	private boolean roomDone = false;
+	private boolean bloodRoomDone = false;
 	private boolean TLbool = false;
 	private boolean fourButtonsDone = false;
 	private boolean first = false, second = false, third = false, fourth = false;
 	private boolean hasRedKey = false;
-
+    private boolean hasBlueKey = false;
+    private boolean hasGreenKey = false;
+    private boolean hasAllKeys = false;
 
 	int slidingPuzzleSize = 2;
 	private SlidingPuzzle slidingPuzzle = new SlidingPuzzle(slidingPuzzleSize);
@@ -97,6 +102,7 @@ public class LevelOne extends Level {
 		super.addTexture(Textures.summerWall);
 		super.addTexture(Textures.fallWall);
 		super.addTexture(Textures.winterWall);
+		super.addTexture(Textures.finalDoor);
 	}
 
 	@Override
@@ -134,6 +140,11 @@ public class LevelOne extends Level {
 		double cameraX = gameInfo.getCameraPositionX();
 		double cameraY = gameInfo.getCameraPositionY();
 		KeyEvent lastKeyPressed = gameInfo.getLastKeyPressed();
+		if(hasGreenKey && hasBlueKey && hasRedKey && gotKey) {
+            getMap()[7][14] = 11;
+            hasAllKeys = true;
+        }
+
 
 		// If the player is doing a puzzle
 		if (gameInfo.getActivePuzzle() != null) {
@@ -147,6 +158,7 @@ public class LevelOne extends Level {
 			if(slidingPuzzle.isPuzzleSolved()) {
 				// Give player green key
 				gameInfo.getPlayer().addItemToInventory(greenKey);
+				hasGreenKey = true;
 			}
 
 			// End the method
@@ -185,8 +197,16 @@ public class LevelOne extends Level {
 
 			// If the player pressed the pickup button
 			if (lastKeyPressed != null && lastKeyPressed.getKeyCode() == KeyEvent.VK_E) {
-				bloodRoomLogic(cameraX, cameraY);
-
+			    if(hasAllKeys)
+			        if(cameraX > 6 && cameraX < 8 && cameraY >13.5 && cameraX < 14)
+                        System.exit(0);
+			    if(!bloodRoomDone)
+				    bloodRoomLogic(cameraX, cameraY);
+                else
+                   if(!hasBlueKey) {
+                       gameInfo.getPlayer().addItemToInventory(blueKey);
+                       hasBlueKey = true;
+                   }
 				if (!fourButtonsDone) {
 					four_buttons(cameraX, cameraY);
 				}
@@ -290,7 +310,7 @@ public class LevelOne extends Level {
 		}
 
 		// Making sure with the time that the player does not spam the interact button
-		if (System.currentTimeMillis() - lastButtonPressTime > 5000 && doorClosed && nearAnyButton(cameraX, cameraY)) {
+		if (System.currentTimeMillis() - lastButtonPressTime > 2500 && doorClosed && nearAnyButton(cameraX, cameraY)) {
 			lastButtonPressTime = System.currentTimeMillis();
 			Audio.playSound(new File("src\\main\\resources\\ItemPickupSound.wav"));
 			bloodGlassesLogic();
@@ -329,7 +349,7 @@ public class LevelOne extends Level {
 			spriteList.get(indexOfGlassOne).texture = Textures.fiftyPercent;
 			spriteList.get(indexOfGlassTwo).texture = Textures.fiftyPercent;
 			spriteList.get(indexOfGlassThree).texture = Textures.fiftyPercent;
-			roomDone = true;
+			bloodRoomDone = true;
 			getMap()[4][8] = 0;
 		} else if (buttonOne == 0 && buttonTwo == 1 && buttonThree == 0) {
 			spriteList.get(indexOfGlassOne).texture = Textures.eightyPercent;

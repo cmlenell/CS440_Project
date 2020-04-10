@@ -35,7 +35,8 @@ public class Textures {
             return name;
         }
 
-
+    public static Textures blueKey = new Textures("src\\main\\resources\\blueKey.png",64,"blueKey");
+    public static Textures bloodButton = new Textures("src\\main\\resources\\bloodButton.png",64,"blueKey");
     public static Textures wall = new Textures("src\\main\\resources\\walltexture.png",64,"wall");
     public static Textures brick = new Textures("src\\main\\resources\\sign.png",64,"brick");
     public static Textures water = new Textures("src\\main\\resources\\floor.png", 64,"water");
@@ -45,12 +46,8 @@ public class Textures {
     public static Textures redKey = new Textures("src\\main\\resources\\redKey.png",64,"redKey");
     public static Textures doorKey = new Textures("src\\main\\resources\\key.png",64,"doorKey");
     public static Textures tv = new Textures("src\\main\\resources\\tv.png",64,"tv");
-    public static Textures blueBox = new Textures("src\\main\\resources\\blueBox.png",64,"blueBox");
-    public static Textures redBox = new Textures("src\\main\\resources\\redBox.png",64,"redBox");
-    public static Textures greenBox = new Textures("src\\main\\resources\\greenBox.png",64,"greenBox");
     public static Textures hitButtonSign= new Textures("src\\main\\resources\\hitButtonSign.png",64,"hitButtonSignBox");
     public static Textures hintEqual = new Textures("src\\main\\resources\\hintEqual.png",64,"hintEqual");
-    public static Textures blockWall = new Textures("src\\main\\resources\\blockWall.png",64,"blockWall");
     public static Textures zeroPercent = new Textures("src\\main\\resources\\zero.png",64,"zero");
     public static Textures tenPercent = new Textures("src\\main\\resources\\tenPercent.png",64,"tenPercent");
     public static Textures fiftyPercent = new Textures("src\\main\\resources\\fiftyPercent.png",64,"fiftyPercent");
@@ -79,5 +76,6 @@ public class Textures {
     public static Textures summerWall = new Textures("src\\main\\resources\\summerWall.png",64,"summerWall");
     public static Textures fallWall = new Textures("src\\main\\resources\\fallWall.png",64,"fallWall");
     public static Textures winterWall = new Textures("src\\main\\resources\\winterWall.png",64,"winterWall");
+    public static Textures finalDoor = new Textures("src\\main\\resources\\finalDoor.png",64,"finalDoor");
 }
 
