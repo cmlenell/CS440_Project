@@ -26,8 +26,10 @@ import com.escaperoom.game.GameInfo;
 import com.escaperoom.game.actors.Player;
 import com.escaperoom.game.levels.Level;
 import com.escaperoom.game.levels.LevelOne;
+import com.escaperoom.game.levels.Tutorial;
 import com.escaperoom.ui.component.Inventory;
 import com.escaperoom.ui.menu.PauseMenu;
+import com.escaperoom.ui.menu.StartMenu;
 
 public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyListener {
 
@@ -39,11 +41,11 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	private Dimension screenSize;
 	
 	// Game components
-	private Level currentLevel = new LevelOne();
+	private Level currentLevel;
 	private GameInfo gameInfo = new GameInfo(new Player());
+	private StartMenu startMenu;
 	private PauseMenu pauseMenu;
 	//private static JFrame inventory; // Bottom container JFrame
-	private static JPanel bottom;
 	private Inventory inventory;
 
 	// Audio Engine
@@ -65,19 +67,8 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	
 	public EscapeRoom() {
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		thread = new Thread(this);
-		image = new BufferedImage(screenSize.width - 400, screenSize.height - 400, BufferedImage.TYPE_INT_RGB);
-		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-	
-	
-		//Instantiate GameEngine Objects
-		screen = new Screen(currentLevel.getMap(), mapWidth, mapHeight, currentLevel.getTextures(),
-				currentLevel.getSprites(), 
-				screenSize.width - 400,
-				screenSize.height - 400);
 		setSize(screenSize.width - 400, screenSize.height - 400);
-		camera = new Camera(7, 7, 1,0, 0, -.66, screen.sprites);
-
+		
 		//Main JFrame details
 		super.setUndecorated(true);
 		super.addKeyListener(camera);
@@ -90,15 +81,12 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		super.addKeyListener(this);
 		
 		//Instantiate menus
+		startMenu = new StartMenu();
+		startMenu.addActionListners(this);
 		pauseMenu = new PauseMenu();
 		pauseMenu.addActionListners(this);
 
-		start();
-
-		// This section is all for the bottom of the screen inventory
-		final Rectangle mainScreen = this.getBounds();
-		inventory = new Inventory(mainScreen,screenSize,currentLevel);
-		gameInfo.getPlayer().setDisplay(inventory);
+		super.add(startMenu);
 
 	}
 
@@ -216,11 +204,34 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	//Load a specific level and display it on the screen
 	public void loadLevel(Level currentLevel) {
 		this.currentLevel = currentLevel;
-		//If the game is not open
-		if(!super.isVisible()) {
-			//Open the game
-			super.setVisible(true);
-		}
+		
+		SwingUtilities.invokeLater(() -> {
+			thread = new Thread(this);
+			image = new BufferedImage(screenSize.width - 400, screenSize.height - 400, BufferedImage.TYPE_INT_RGB);
+			pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		
+		
+			//Instantiate GameEngine Objects
+			screen = new Screen(currentLevel.getMap(), mapWidth, mapHeight, currentLevel.getTextures(),
+					currentLevel.getSprites(), 
+					screenSize.width - 400,
+					screenSize.height - 400);
+			camera = new Camera(7, 7, 1,0, 0, -.66, screen.sprites);
+			
+			
+			requestFocus();
+			super.remove(startMenu);
+			super.addKeyListener(camera);
+			super.addKeyListener(this);
+			start();
+			
+			// This section is all for the bottom of the screen inventory
+			final Rectangle mainScreen = this.getBounds();
+			inventory = new Inventory(mainScreen,screenSize,currentLevel);
+			gameInfo.getPlayer().setDisplay(inventory);
+			super.repaint();
+			super.revalidate();
+		});
 	}
 	
 	
@@ -233,7 +244,6 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		char letterReleased = event.getKeyChar();
 
 		// If the user wants to pause the game
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -266,7 +276,17 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 		Object src = e.getSource();
 
 		if (src.equals(pauseMenu.getQuitButton())) {
-			System.exit(0);
+			running = false;
+			SwingUtilities.invokeLater(() -> {
+				requestFocus();
+			
+				super.add(startMenu);
+				super.remove(pauseMenu);
+				gameInfo.getPlayer().setDisplay(null);
+				super.revalidate();
+				super.repaint();
+			});
+			
 
 			// If the user wants to resume the game
 		} else if (src.equals(pauseMenu.getResumeButton())) {
@@ -300,6 +320,12 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 				super.revalidate();
 				super.repaint();
 			});
+		} else if(src.equals(startMenu.getTutorialButton())) {
+			loadLevel(new Tutorial());
+			
+		} else if(src.equals(startMenu.getLevelOneButton())) {
+			loadLevel(new LevelOne());
+
 		}
 
 	}

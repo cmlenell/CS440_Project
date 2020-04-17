@@ -1,10 +1,8 @@
 package com.escaperoom.game.actors;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import com.escaperoom.engine.cosmetics.Sprites;
-import com.escaperoom.game.levels.Level;
 import com.escaperoom.ui.component.Inventory;
 
 public class Player  {
