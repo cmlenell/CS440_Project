@@ -202,8 +202,10 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 	
 	
 	//Load a specific level and display it on the screen
-	public void loadLevel(Level currentLevel) {
+	public void loadLevel(Level currentLevel,int x, int y) {
 		this.currentLevel = currentLevel;
+		int startPositionX =x;
+		int startPositionY = y;
 		
 		SwingUtilities.invokeLater(() -> {
 			thread = new Thread(this);
@@ -216,7 +218,8 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 					currentLevel.getSprites(), 
 					screenSize.width - 400,
 					screenSize.height - 400);
-			camera = new Camera(7, 7, 1,0, 0, -.66, screen.sprites);
+
+			camera = new Camera(startPositionX,startPositionY, 1,0, 0, -.66, screen.sprites);
 			
 			
 			requestFocus();
@@ -321,10 +324,10 @@ public class EscapeRoom extends JFrame implements Runnable, ActionListener, KeyL
 				super.repaint();
 			});
 		} else if(src.equals(startMenu.getTutorialButton())) {
-			loadLevel(new Tutorial());
+			loadLevel(new Tutorial(),4,4);
 			
 		} else if(src.equals(startMenu.getLevelOneButton())) {
-			loadLevel(new LevelOne());
+			loadLevel(new LevelOne(),7,7);
 
 		}
 
