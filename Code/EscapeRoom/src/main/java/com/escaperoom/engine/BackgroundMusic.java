@@ -40,12 +40,29 @@ public class BackgroundMusic
 	}
 	public void pause()
 	{
-		clipTime = c.getMicrosecondPosition();
+		setClipTime(c.getMicrosecondPosition());
 		c.stop();
 	}
 
 	public void setGain(double d)
 	{
-		gain = d / 100.0;
+		if(d < 0.0)
+			gain = 0;
+		if(d > 100.0)
+			gain = 100.0;
+		else
+			gain = d / 100.0;
+	}
+	public double getGain()
+	{
+		return gain;
+	}
+	public void setClipTime(long t)
+	{
+		clipTime = t;
+	}
+	public long getClipTime()
+	{
+		return clipTime;
 	}
 }
